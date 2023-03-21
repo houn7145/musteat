@@ -100,6 +100,10 @@ SELECT AVG(AVG) FROM RAVG WHERE RNO = '1';
 -- 7. 맛집 클릭시 상세보기 
 SELECT * FROM RESTAURANT WHERE RNO = '1';
 
+-- 8. 조회수 업
+UPDATE RESTAURANT SET RHIT = RHIT + 1
+    WHERE RNO = '1';
+
 -- * 평점 4.5 이상 맛집 출력 // 보류
 
 -- 8. 맛집 이름으로 검색 
@@ -161,16 +165,16 @@ SELECT COUNT(*) FROM NOTICEBOARD;
 UPDATE NOTICEBOARD SET NHIT = NHIT + 1
     WHERE NNO = '1';
 
--- 4. 공지글 수정
+-- 4. 글번호로 공지글 상세보기
+SELECT * FROM NOTICEBOARD WHERE NNO = '1';
+
+-- 5. 공지글 수정
 UPDATE NOTICEBOARD SET NTITLE = '바뀐 제목',
                        NCONTENT = '바뀐 본문'
     WHERE NNO = '1';
 
--- 5. 공지글 삭제
+-- 6. 공지글 삭제
 DELETE FROM NOTICEBOARD WHERE NNO = '1';
-
--- 6. 글번호로 공지글 상세보기
-SELECT * FROM NOTICEBOARD WHERE NNO = '1';
 
 -- 7. 공지게시판 검색
 SELECT * FROM NOTICEBOARD WHERE NTITLE LIKE '%' || '공지' || '%';
@@ -215,4 +219,20 @@ INSERT INTO FREEBOARD (FNO, MID, FTITLE, FCONTENT, FIMAGE1, FIMAGE2, FGROUP, FST
     VALUES (FREE_SEQ.NEXTVAL, 'CCC', '서구청 닭갈비 맛있어요', '한번가보세요', NULL, NULL, 2, 1, 1);
 
 -- 8. 자유게시판 글 검색
-SELECT * FROM FREEBOARD WHERE FTITLE LIKE '%' || '맛' || '%';
+SELECT * FROM FREEBOARD WHERE FTITLE LIKE '%' || '인' || '%';
+
+--------------------------------
+----------------- ccode
+--------------------------------
+
+-- 1. 카테고리 추가
+INSERT INTO CCODE (CNO, CNAME)
+    VALUES (CCODE_SEQ.NEXTVAL, '디저트');
+
+-- 2. 카테고리 삭제
+DELETE FROM CCODE WHERE CNAME = '디저트';
+
+-- 3. 카테고리 출력
+SELECT * FROM CCODE;
+
+COMMIT;

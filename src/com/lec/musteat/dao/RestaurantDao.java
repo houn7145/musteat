@@ -19,7 +19,7 @@ public class RestaurantDao {
 	public static final int SUCCESS = 1; // 등록 성공;
 	public static final int FAIL = 0; // 등록 실패;
 	private DataSource ds;
-	
+
 	public RestaurantDao() {
 		try {
 			Context ctx = new InitialContext();
@@ -28,22 +28,22 @@ public class RestaurantDao {
 			System.out.println(e.getMessage());
 		}
 	}
-	
-	// -- 1-1. 맛집 리스트 보기 - 페이징 
+
+	// -- 1-1. 맛집 리스트 보기 - 페이징
 	public ArrayList<RestaurantDto> getRestaurantList(int startRow, int endRow) {
 		ArrayList<RestaurantDto> Restaurants = new ArrayList<RestaurantDto>();
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		String sql = "SELECT * FROM (SELECT ROWNUM RN, A.* FROM (SELECT * FROM RESTAURANT ORDER BY RRDATE DESC)A)" + 
-				"    WHERE RN BETWEEN ? AND ?";
+		String sql = "SELECT * FROM (SELECT ROWNUM RN, A.* FROM (SELECT * FROM RESTAURANT ORDER BY RRDATE DESC)A)"
+				+ "    WHERE RN BETWEEN ? AND ?";
 		try {
 			conn = ds.getConnection();
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, startRow);
 			pstmt.setInt(2, endRow);
 			rs = pstmt.executeQuery();
-			while(rs.next()) {
+			while (rs.next()) {
 				int rno = rs.getInt("rno");
 				String mid = rs.getString("mid");
 				int cno = rs.getInt("cno");
@@ -59,7 +59,8 @@ public class RestaurantDao {
 				int rhit = rs.getInt("rhit");
 				Timestamp rrdate = rs.getTimestamp("rrdate");
 				int avghit = rs.getInt("avghit");
-				Restaurants.add(new RestaurantDto(rno, mid, cno, rname, rcontent, rplace, mainimg, subimg1, subimg2, rtel, rmenu, rprice, rhit, rrdate, avghit));
+				Restaurants.add(new RestaurantDto(rno, mid, cno, rname, rcontent, rplace, mainimg, subimg1, subimg2,
+						rtel, rmenu, rprice, rhit, rrdate, avghit));
 			}
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
@@ -77,7 +78,7 @@ public class RestaurantDao {
 		}
 		return Restaurants;
 	}
-	
+
 	// -- 1-2. 페이징시 필요한 등록한 맛집 갯수
 	public int getRestaurantTotCnt() {
 		int totCnt = 0;
@@ -107,14 +108,14 @@ public class RestaurantDao {
 		}
 		return totCnt;
 	}
-	
+
 	// -- 2. 맛집 등록
 	public int insertRestaurant(RestaurantDto dto) {
 		int result = FAIL;
-		Connection 		  conn 	= null;
+		Connection conn = null;
 		PreparedStatement pstmt = null;
-		String sql = "INSERT INTO RESTAURANT (RNO, MID, CNO, RPLACE, RNAME, RCONTENT, MAINIMG, SUBIMG1, SUBIMG2, RTEL, RMENU, RPRICE)" + 
-				"    VALUES (RES_SEQ.NEXTVAL, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+		String sql = "INSERT INTO RESTAURANT (RNO, MID, CNO, RPLACE, RNAME, RCONTENT, MAINIMG, SUBIMG1, SUBIMG2, RTEL, RMENU, RPRICE)"
+				+ "    VALUES (RES_SEQ.NEXTVAL, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 		try {
 			conn = ds.getConnection();
 			pstmt = conn.prepareStatement(sql);
@@ -146,23 +147,17 @@ public class RestaurantDao {
 		}
 		return result;
 	}
-	
+
 	// -- 3. 등록한 맛집 수정
 	public int modifyRestaurant(RestaurantDto dto) {
 		int result = FAIL;
 		Connection conn = null;
 		PreparedStatement pstmt = null;
-		String sql = "UPDATE RESTAURANT SET CNO = ?," + 
-				"                      RPLACE = ?," + 
-				"                      RNAME = ?," + 
-				"                      RCONTENT = ?," + 
-				"                      MAINIMG = ?," + 
-				"                      SUBIMG1 = ?," + 
-				"                      SUBIMG2 = ?," + 
-				"                      RTEL = ?," +
-				"					   RMENU = ?," +
-				"                      RPRICE = ?" +		
-				"    WHERE RNO = ?";
+		String sql = "UPDATE RESTAURANT SET CNO = ?," + "                      RPLACE = ?,"
+				+ "                      RNAME = ?," + "                      RCONTENT = ?,"
+				+ "                      MAINIMG = ?," + "                      SUBIMG1 = ?,"
+				+ "                      SUBIMG2 = ?," + "                      RTEL = ?,"
+				+ "					   RMENU = ?," + "                      RPRICE = ?" + "    WHERE RNO = ?";
 		try {
 			conn = ds.getConnection();
 			pstmt = conn.prepareStatement(sql);
@@ -194,7 +189,7 @@ public class RestaurantDao {
 		}
 		return result;
 	}
-	
+
 	// -- 4. 등록한 맛집 삭제
 	public int DeleteRestaurant(String rno) {
 		int result = FAIL;
@@ -222,14 +217,13 @@ public class RestaurantDao {
 		}
 		return result;
 	}
-	
+
 	// -- 5-1. 평점 등록
 	public int insertRavg(RavgDto dto) {
 		int result = FAIL;
-		Connection 		  conn 	= null;
+		Connection conn = null;
 		PreparedStatement pstmt = null;
-		String sql = "INSERT INTO RAVG (ANO, RNO, AVG)" + 
-				"    VALUES (RAVG_SEQ.NEXTVAL, ?, ?)";
+		String sql = "INSERT INTO RAVG (ANO, RNO, AVG)" + "    VALUES (RAVG_SEQ.NEXTVAL, ?, ?)";
 		try {
 			conn = ds.getConnection();
 			pstmt = conn.prepareStatement(sql);
@@ -252,13 +246,12 @@ public class RestaurantDao {
 		}
 		return result;
 	}
-	
+
 	// -- 5-2. 평점 등록 횟수 업데이트
 	public void avgHitUp(int rno) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
-		String sql = "UPDATE RESTAURANT SET AVGHIT = AVGHIT + 1" + 
-				"    WHERE RNO = ?";
+		String sql = "UPDATE RESTAURANT SET AVGHIT = AVGHIT + 1" + "    WHERE RNO = ?";
 		try {
 			conn = ds.getConnection();
 			pstmt = conn.prepareStatement(sql);
@@ -278,7 +271,7 @@ public class RestaurantDao {
 			}
 		}
 	}
-	
+
 	// -- 6. 평점 출력
 	public int avg(int rno) {
 		int avgResult = 0;
@@ -309,9 +302,33 @@ public class RestaurantDao {
 		}
 		return avgResult;
 	}
-	
-	// -- 7. 맛집 클릭시 상세보기
-	public RestaurantDto getRestaurant(int rno) {
+
+	// -- 7. 조회수 업
+	private void hitUp(int rno) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		String sql = "UPDATE RESTAURANT SET RHIT = RHIT + 1" + "    WHERE RNO = ?";
+		try {
+			conn = ds.getConnection();
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, rno);
+			pstmt.executeUpdate();
+		} catch (SQLException e) {
+			System.out.println(e.getMessage() + " 조회수 up 실패");
+		} finally {
+			try {
+				if (pstmt != null)
+					pstmt.close();
+				if (conn != null)
+					conn.close();
+			} catch (SQLException e) {
+				System.out.println(e.getMessage());
+			}
+		}
+	}
+
+	// -- 8. 맛집 클릭시 상세보기 - 맛집 수정View
+	public RestaurantDto modifyViewRestaurant(int rno) {
 		RestaurantDto dto = null;
 		Connection conn = null;
 		PreparedStatement pstmt = null;
@@ -337,7 +354,8 @@ public class RestaurantDao {
 				int rhit = rs.getInt("rhit");
 				Timestamp rrdate = rs.getTimestamp("rrdate");
 				int avghit = rs.getInt("avghit");
-				dto = new RestaurantDto(rno, mid, cno, rname, rcontent, rplace, mainimg, subimg1, subimg2, rtel, rmenu, rprice, rhit, rrdate, avghit);
+				dto = new RestaurantDto(rno, mid, cno, rname, rcontent, rplace, mainimg, subimg1, subimg2, rtel, rmenu,
+						rprice, rhit, rrdate, avghit);
 			}
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
@@ -355,8 +373,57 @@ public class RestaurantDao {
 		}
 		return dto;
 	}
-	// -- 8. 맛집 이름으로 검색 
-	public ArrayList<RestaurantDto> getSchRestaurant(String rname){
+
+	// -- 8. 맛집 클릭시 상세보기 - 조회수 1 up
+	public RestaurantDto getRestaurant(int rno) {
+		hitUp(rno); // 조회수 1 up
+		RestaurantDto dto = null;
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql = "SELECT * FROM RESTAURANT WHERE RNO = ?";
+		try {
+			conn = ds.getConnection();
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, rno);
+			rs = pstmt.executeQuery();
+			if (rs.next()) {
+				String mid = rs.getString("mid");
+				int cno = rs.getInt("cno");
+				String rname = rs.getString("rname");
+				String rcontent = rs.getString("rcontent");
+				String rplace = rs.getString("rplace");
+				String mainimg = rs.getString("mainimg");
+				String subimg1 = rs.getString("subimg1");
+				String subimg2 = rs.getString("subimg2");
+				String rtel = rs.getString("rtel");
+				String rmenu = rs.getString("rmenu");
+				String rprice = rs.getString("rprice");
+				int rhit = rs.getInt("rhit");
+				Timestamp rrdate = rs.getTimestamp("rrdate");
+				int avghit = rs.getInt("avghit");
+				dto = new RestaurantDto(rno, mid, cno, rname, rcontent, rplace, mainimg, subimg1, subimg2, rtel, rmenu,
+						rprice, rhit, rrdate, avghit);
+			}
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+		} finally {
+			try {
+				if (rs != null)
+					rs.close();
+				if (pstmt != null)
+					pstmt.close();
+				if (conn != null)
+					conn.close();
+			} catch (SQLException e) {
+				System.out.println(e.getMessage());
+			}
+		}
+		return dto;
+	}
+
+	// -- 9. 맛집 이름으로 검색
+	public ArrayList<RestaurantDto> getSchRestaurant(String rname) {
 		ArrayList<RestaurantDto> dtos = new ArrayList<RestaurantDto>();
 		Connection conn = null;
 		PreparedStatement pstmt = null;
@@ -367,10 +434,11 @@ public class RestaurantDao {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, rname);
 			rs = pstmt.executeQuery();
-			while(rs.next()) {
+			while (rs.next()) {
 				int rno = rs.getInt("rno");
 				String mid = rs.getString("mid");
 				int cno = rs.getInt("cno");
+				rname = rs.getString("rname");
 				String rcontent = rs.getString("rcontent");
 				String rplace = rs.getString("rplace");
 				String mainimg = rs.getString("mainimg");
@@ -378,11 +446,12 @@ public class RestaurantDao {
 				String subimg2 = rs.getString("subimg2");
 				String rtel = rs.getString("rtel");
 				String rmenu = rs.getString("rmenu");
-				String rprice = rs.getString("rprice"); 
+				String rprice = rs.getString("rprice");
 				int rhit = rs.getInt("rhit");
 				Timestamp rrdate = rs.getTimestamp("rrdate");
 				int avghit = rs.getInt("avghit");
-				dtos.add(new RestaurantDto(rno, mid, cno, rname, rcontent, rplace, mainimg, subimg1, subimg2, rtel, rmenu, rprice, rhit, rrdate, avghit));
+				dtos.add(new RestaurantDto(rno, mid, cno, rname, rcontent, rplace, mainimg, subimg1, subimg2, rtel,
+						rmenu, rprice, rhit, rrdate, avghit));
 			}
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
