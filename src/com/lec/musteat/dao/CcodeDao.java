@@ -138,7 +138,11 @@ public class CcodeDao {
 				String mid = rs.getString("mid");
 				String rname = rs.getString("rname");
 				String rcontent = rs.getString("rcontent");
+<<<<<<< HEAD
 				String rplace = rs.getString("rplace");
+=======
+				String rplace = rs.getString("rcontent");
+>>>>>>> da84813b46552efaab71568f3a20e6ebe0411bf0
 				String mainimg = rs.getString("mainimg");
 				String subimg1 = rs.getString("subimg1");
 				String subimg2 = rs.getString("subimg2");

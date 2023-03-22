@@ -5,8 +5,11 @@ INSERT INTO MEMBER (MID, MPW, MNAME, MEMAIL, MGENDER, MBIRTH)
     VALUES ('BBB', '1', '김지연', 'K@K.COM', '여', '1997-09-22');
 INSERT INTO MEMBER (MID, MPW, MNAME, MEMAIL, MGENDER, MBIRTH)
     VALUES ('CCC', '1', '최인성', 'C@C.COM', '남', '1991-04-23');
+<<<<<<< HEAD
 INSERT INTO MEMBER (MID, MPW, MNAME, MEMAIL, MGENDER, MBIRTH)
     VALUES ('DDD', '1', '조미림', 'J@J.COM', '여', '1989-12-14');
+=======
+>>>>>>> da84813b46552efaab71568f3a20e6ebe0411bf0
  
 ---- ADMIN
 INSERT INTO ADMIN (AID, APW, ANAME)
@@ -29,8 +32,11 @@ INSERT INTO CCODE (CNO, CNAME)
     VALUES (CCODE_SEQ.NEXTVAL, '양식');
 INSERT INTO CCODE (CNO, CNAME)
     VALUES (CCODE_SEQ.NEXTVAL, '카페/디저트');
+<<<<<<< HEAD
 INSERT INTO CCODE (CNO, CNAME)
     VALUES (CCODE_SEQ.NEXTVAL, '기타');
+=======
+>>>>>>> da84813b46552efaab71568f3a20e6ebe0411bf0
 
 ---- RESTAURNT
 INSERT INTO RESTAURANT (RNO, MID, CNO, RPLACE, RNAME, RCONTENT, MAINIMG, RTEL, RMENU, RPRICE)
@@ -44,6 +50,7 @@ INSERT INTO RESTAURANT (RNO, MID, CNO, RPLACE, RNAME, RCONTENT, MAINIMG, RTEL, R
     VALUES (RES_SEQ.NEXTVAL, 'BBB', 4, '서울 강남구', '레아', '빽빽한 플렌테리어와 부담스럽지 않은 파스타가 인상적', '레아.jpg', '02-579-6369', '봉골레', '2만원~3만원');
 INSERT INTO RESTAURANT (RNO, MID, CNO, RPLACE, RNAME, RCONTENT, MAINIMG, RTEL, RMENU, RPRICE)
     VALUES (RES_SEQ.NEXTVAL, 'AAA', 1, '성남 분당구', '윤밀원', '족발, 평양냉면, 양곰탕을 먹어봤는데 족발이 가장 좋았고 평냉과 양곰탕도 수준급이었습니다. 게다가 업장청결도 객장넓이, 개방형 주방 너비 및 청결도, 직원 친절도 모두 좋았고, 질과 양 모두 좋았어요. 추천합니다', '윤밀원.jpg', '032-714-8388', '족발', '2만원~3만원');
+<<<<<<< HEAD
 INSERT INTO RESTAURANT (RNO, MID, CNO, RPLACE, RNAME, RCONTENT, MAINIMG, RTEL, RMENU, RPRICE)
     VALUES (RES_SEQ.NEXTVAL, 'CCC', 4, '서울 서초구', '릿잇타미', '세련되고 감각적인 인테리어, 엄선된 재료로 만든 특별한 메뉴와 독특한 맥주로 채워진 정통 아메리칸 수제버거 다이닝 해가 지면 감성적인 분위기로 채워지는 새로운 힙 플레이스', '릿잇타미.jpg', '02-525-1976', '햄버거', '만원~2만원');
 INSERT INTO RESTAURANT (RNO, MID, CNO, RPLACE, RNAME, RCONTENT, MAINIMG, RTEL, RMENU, RPRICE)
@@ -54,6 +61,10 @@ INSERT INTO RESTAURANT (RNO, MID, CNO, RPLACE, RNAME, RCONTENT, MAINIMG, RTEL, R
     VALUES (RES_SEQ.NEXTVAL, 'CCC', 1, '서울시 강남구', '노란상소갈비', '적당한 마블링으로 촉촉함을 더한 생갈비와 시그니처 메뉴인 정갈비는 육향이 너무 좋네요. 깔끔하고 짜지않은 밑반찬은 덤.', '노란상소갈비.jpg', '02-543-9290', '정갈비', '2만원~3만원');
 INSERT INTO RESTAURANT (RNO, MID, CNO, RPLACE, RNAME, RCONTENT, MAINIMG, RTEL, RMENU, RPRICE)
     VALUES (RES_SEQ.NEXTVAL, 'BBB', 1, '서울시 영등포구', '삼거리먼지막순대국', '50년 전통의 순대국 전문점 내장과 머리 고리를 따로 삶아 재배합한 육수로 만든 순대국이 대표메뉴이며 매일 겉절이를 담는다고 합니다', '삼거리먼지막순대국.jpg', '02-848-2469', '순대국', '만원이하');
+=======
+
+
+>>>>>>> da84813b46552efaab71568f3a20e6ebe0411bf0
 
 
 SELECT R.*, (SELECT AVG(AVG) FROM RAVG) AVG FROM RESTAURANT R;
