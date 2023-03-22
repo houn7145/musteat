@@ -12,7 +12,7 @@
 </head>
 <body>
 	<footer>
-		<div id="wrap">
+		<div id="footer_wrap">
 			<ul>
 				<li><a href="#">회사 소개</a><span class="border"></span></li>
 				<li><a href="#">서비스 소개</a><span class="border"></span></li>
@@ -20,7 +20,7 @@
 				<li><a href="#"><b>개인정보처리방침</b></a><span class="border"></span></li>
 				<li><a href="#">이용약관</a><span class="border"></span></li>
 				<li><a href="#">도움말</a><span class="border"></span></li>
-				<li><a href="#"><b>공지사항</b></a></li>
+				<li><a href="#" class="click"><b>공지사항</b></a></li>
 			</ul>
 			<ul>
 				<li><a href="#"><b>Must-Eat(주)</b></a><span class="border"></span></li>
@@ -32,8 +32,10 @@
 				<li><a href="#">TEL <b>02-393-4321</b></a><span class="border"></span></li>
 				<li><a href="#">EMAIL <b>info@musteat.com</b></a></li>
 			</ul>
+			<br>
+			<br>
+			<span>Copyright (c) Must-Eat. All Rights Reserved.</span>
 		</div>
-		<span>Copyright (c) Must-Eat. All Rights Reserved.</span>
 	</footer>
 </body>
 </html>

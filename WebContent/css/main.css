@@ -1,0 +1,74 @@
+@charset "UTF-8";
+
+@font-face {
+	font-family: 'pop-Light';
+	src: url('../fonts/ONE Mobile Light.ttf') format('woff');
+}
+
+* {
+	margin: 0;
+	padding: 0;
+	font-family: 'pop-Light';
+}
+
+li {
+	list-style: none;
+}
+
+#main_wrap {
+	width: 1000px;
+	border: 1px solid gray;
+	margin: 0 auto;
+}
+
+
+#main_wrap .category {
+	width: 1000px;
+	height: 50px;
+	border: 1px solid gray;
+	background-color: #f7c95e;
+	text-align: center;
+}
+
+.category ul {
+	overflow: hidden;
+	height: 50px;
+	line-height: 50px;
+	display: inline-block;
+}
+
+.category ul li {
+	float: left;
+	margin: 0 30px;
+	cursor: pointer;
+	font-weight: bold;
+	color:white;
+}
+
+#main_wrap .mainSection {
+	width: 1000px;
+	height: 500px;
+	border: 1px solid #f7c95e;
+	margin: 0 auto;
+}
+.mainSection .ccodeRestaurants {
+	width: 700px;
+	height: 400px;
+	text-align: center;
+	border: 1px solid gray;
+	box-sizing: border-box;
+	margin: 0 auto;
+}
+
+.slides {
+	margin-top: 30px;
+}
+
+.mainSection .restaurantReview {
+	width: 700px;
+	height: 300px;
+	text-align: center;
+	border: 1px solid gray;
+	box-sizing: border-box;
+	margin: 0 auto;
+}
