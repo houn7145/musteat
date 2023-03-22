@@ -23,7 +23,7 @@ public class MemberDao {
 	public static final int LOGIN_SUCCESS = 1; // 로그인 성공
 	public static final int LOGIN_FAIL = 0; // 로그인 실패
 	private DataSource ds;
-	
+
 	public MemberDao() {
 		try {
 			Context ctx = new InitialContext();
@@ -32,14 +32,13 @@ public class MemberDao {
 			System.out.println(e.getMessage());
 		}
 	}
-	
+
 	// -- 1. 회원가입
 	public int joinMember(MemberDto dto) {
 		int result = FAIL;
-		Connection 		  conn 	= null;
+		Connection conn = null;
 		PreparedStatement pstmt = null;
-		String sql = "INSERT INTO MEMBER (MID, MPW, MNAME, MEMAIL, MGENDER, MBIRTH)" + 
-				"    VALUES (?, ?, ?, ?, ?, ?)";
+		String sql = "INSERT INTO MEMBER (MID, MPW, MNAME, MEMAIL, MGENDER, MBIRTH)" + "    VALUES (?, ?, ?, ?, ?, ?)";
 		try {
 			conn = ds.getConnection();
 			pstmt = conn.prepareStatement(sql);
@@ -66,7 +65,7 @@ public class MemberDao {
 		}
 		return result;
 	}
-	
+
 	// -- 2. ID중복체크
 	public int confirmId(String mid) {
 		int result = MEMBER_EXISTENT;
@@ -100,7 +99,7 @@ public class MemberDao {
 		}
 		return result;
 	}
-	
+
 	// -- 3. EMAIL중복체크
 	public int confirmEmail(String memail) {
 		int result = MEMBER_EXISTENT;
@@ -134,7 +133,7 @@ public class MemberDao {
 		}
 		return result;
 	}
-	
+
 	// -- 4. 로그인 체크
 	public int loginCheck(String mid, String mpw) {
 		int result = LOGIN_FAIL;
@@ -169,7 +168,7 @@ public class MemberDao {
 		}
 		return result;
 	}
-	
+
 	// -- 5. ID로 회원정보 가져오기
 	public MemberDto getMember(String mid) {
 		MemberDto dto = null;
@@ -188,7 +187,7 @@ public class MemberDao {
 				String memail = rs.getString("memail");
 				String mtel = rs.getString("mtel");
 				String mgender = rs.getString("mgender");
-				Date   mbirth = rs.getDate("mbirth");
+				Date mbirth = rs.getDate("mbirth");
 				Timestamp mrdate = rs.getTimestamp("mrdate");
 				dto = new MemberDto(mid, mpw, mname, memail, mtel, mgender, mbirth, mrdate);
 			}
@@ -208,18 +207,14 @@ public class MemberDao {
 		}
 		return dto;
 	}
-	
+
 	// -- 6. 회원정보 수정하기
 	public int modifyMember(MemberDto dto) {
 		int result = FAIL;
 		Connection conn = null;
 		PreparedStatement pstmt = null;
-		String sql = "UPDATE MEMBER SET MPW = ?," + 
-				"                  MEMAIL = ?," + 
-				"                  MTEL = ?," + 
-				"                  MGENDER = ?," + 
-				"                  MBIRTH = ?" + 
-				"    WHERE MID = ?";
+		String sql = "UPDATE MEMBER SET MPW = ?," + "                  MEMAIL = ?," + "                  MTEL = ?,"
+				+ "                  MGENDER = ?," + "                  MBIRTH = ?" + "    WHERE MID = ?";
 		try {
 			conn = ds.getConnection();
 			pstmt = conn.prepareStatement(sql);
@@ -246,22 +241,22 @@ public class MemberDao {
 		}
 		return result;
 	}
-	
+
 	// -- 7-1. 관리자모드에서 회원리스트 출력 - 페이징
 	public ArrayList<MemberDto> getMemberList(int startRow, int endRow) {
 		ArrayList<MemberDto> members = new ArrayList<MemberDto>();
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		String sql = "SELECT * FROM (SELECT ROWNUM RN, A.* FROM (SELECT * FROM MEMBER ORDER BY MRDATE DESC) A)" + 
-				"    WHERE RN BETWEEN ? AND ?";
+		String sql = "SELECT * FROM (SELECT ROWNUM RN, A.* FROM (SELECT * FROM MEMBER ORDER BY MRDATE DESC) A)"
+				+ "    WHERE RN BETWEEN ? AND ?";
 		try {
 			conn = ds.getConnection();
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, startRow);
 			pstmt.setInt(2, endRow);
 			rs = pstmt.executeQuery();
-			while(rs.next()) {
+			while (rs.next()) {
 				String mid = rs.getString("mid");
 				String mpw = rs.getString("mpw");
 				String mname = rs.getString("mname");
@@ -288,7 +283,7 @@ public class MemberDao {
 		}
 		return members;
 	}
-	
+
 	// -- 7-2. 페이징시 필요한 등록된 회원수
 	public int getMemberTotCnt() {
 		int totCnt = 0;
@@ -318,12 +313,87 @@ public class MemberDao {
 		}
 		return totCnt;
 	}
-	
+
+	// 회원탈퇴전 등록한 리뷰 삭제
+	public void deleteMemberOneReview(String mid) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		String sql = "DELETE FROM ONEREVIEW WHERE MID = ?";
+		try {
+			conn = ds.getConnection();
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, mid);
+			pstmt.executeUpdate();
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+		} finally {
+			try {
+				if (pstmt != null)
+					pstmt.close();
+				if (conn != null)
+					conn.close();
+			} catch (SQLException e) {
+				System.out.println(e.getMessage());
+			}
+		}
+	}
+
+	// 회원탈퇴전 등록한 글 삭제
+	public void deleteMemberfBoard(String mid) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		String sql = "DELETE FROM FREEBOARD WHERE MID = ?";
+		try {
+			conn = ds.getConnection();
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, mid);
+			pstmt.executeUpdate();
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+		} finally {
+			try {
+				if (pstmt != null)
+					pstmt.close();
+				if (conn != null)
+					conn.close();
+			} catch (SQLException e) {
+				System.out.println(e.getMessage());
+			}
+		}
+	}
+
+	// 회원탈퇴전 등록한 맛집 삭제
+	public void deleteMemberRestaurant(String mid) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		String sql = "DELETE FROM RESTAURANT WHERE MID = ?";
+		try {
+			conn = ds.getConnection();
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, mid);
+			pstmt.executeUpdate();
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+		} finally {
+			try {
+				if (pstmt != null)
+					pstmt.close();
+				if (conn != null)
+					conn.close();
+			} catch (SQLException e) {
+				System.out.println(e.getMessage());
+			}
+		}
+	}
+
 	// 8. 회원 탈퇴
 	public int withdrawalMember(String mid) {
 		int result = FAIL;
 		Connection conn = null;
 		PreparedStatement pstmt = null;
+		deleteMemberfBoard(mid);
+		deleteMemberOneReview(mid);
+		deleteMemberRestaurant(mid);
 		String sql = "DELETE FROM MEMBER WHERE MID = ?";
 		try {
 			conn = ds.getConnection();

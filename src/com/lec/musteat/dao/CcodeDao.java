@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 
 import javax.naming.Context;
@@ -12,6 +13,7 @@ import javax.naming.NamingException;
 import javax.sql.DataSource;
 
 import com.lec.musteat.dto.CcodeDto;
+import com.lec.musteat.dto.RestaurantDto;
 
 public class CcodeDao {
 	public static final int SUCCESS = 1; // 등록 성공;
@@ -84,7 +86,7 @@ public class CcodeDao {
 	}
 
 	// -- 3. 카테고리 출력
-	public ArrayList<CcodeDto> listMember() {
+	public ArrayList<CcodeDto> listCcode() {
 		ArrayList<CcodeDto> codes = new ArrayList<CcodeDto>();
 		Connection conn = null;
 		PreparedStatement pstmt = null;
@@ -114,5 +116,86 @@ public class CcodeDao {
 			}
 		}
 		return codes;
+	}
+	
+	// -- 4. 메인페이지 카테고리 별 맛집 출력 - 페이징
+	public ArrayList<RestaurantDto> getCcodeRestaurantList(int cno, int startRow, int endRow) {
+		ArrayList<RestaurantDto> Restaurants = new ArrayList<RestaurantDto>();
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql = "SELECT * FROM (SELECT ROWNUM RN, A.* FROM (SELECT * FROM RESTAURANT WHERE CNO = ? ORDER BY RRDATE DESC)A)" + 
+				"    WHERE RN BETWEEN ? AND ?";
+		try {
+			conn = ds.getConnection();
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, cno);
+			pstmt.setInt(2, startRow);
+			pstmt.setInt(3, endRow);
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				int rno = rs.getInt("rno");
+				String mid = rs.getString("mid");
+				String rname = rs.getString("rname");
+				String rcontent = rs.getString("rcontent");
+				String rplace = rs.getString("rplace");
+				String mainimg = rs.getString("mainimg");
+				String subimg1 = rs.getString("subimg1");
+				String subimg2 = rs.getString("subimg2");
+				String rtel = rs.getString("rtel");
+				String rmenu = rs.getString("rmenu");
+				String rprice = rs.getString("rprice");
+				int rhit = rs.getInt("rhit");
+				Timestamp rrdate = rs.getTimestamp("rrdate");
+				int avghit = rs.getInt("avghit");
+				Restaurants.add(new RestaurantDto(rno, mid, cno, rname, rcontent, rplace, mainimg, subimg1, subimg2,
+						rtel, rmenu, rprice, rhit, rrdate, avghit));
+			}
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+		} finally {
+			try {
+				if (rs != null)
+					rs.close();
+				if (pstmt != null)
+					pstmt.close();
+				if (conn != null)
+					conn.close();
+			} catch (SQLException e) {
+				System.out.println(e.getMessage());
+			}
+		}
+		return Restaurants;
+	}
+	
+	// -- 4-2. 카테고리 별 맛집 출력시 필요한 맛집 갯수
+	public int getRestaurantTotCnt(int cno) {
+		int totCnt = 0;
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql = "SELECT COUNT(*) FROM RESTAURANT WHERE CNO = ?";
+		try {
+			conn = ds.getConnection();
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, cno);
+			rs = pstmt.executeQuery();
+			rs.next();
+			totCnt = rs.getInt(1);
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+		} finally {
+			try {
+				if (rs != null)
+					rs.close();
+				if (pstmt != null)
+					pstmt.close();
+				if (conn != null)
+					conn.close();
+			} catch (SQLException e) {
+				System.out.println(e.getMessage());
+			}
+		}
+		return totCnt;
 	}
 }
