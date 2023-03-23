@@ -422,25 +422,28 @@ public class RestaurantDao {
 		return dto;
 	}
 
-	// -- 9. 맛집 이름으로 검색
-	public ArrayList<RestaurantDto> getSchRestaurant(String rname) {
+	// -- 9-1. 맛집 지역으로 검색(페이징)
+	public ArrayList<RestaurantDto> getSchRestaurant(String rplace, int startRow, int endRow) {
 		ArrayList<RestaurantDto> dtos = new ArrayList<RestaurantDto>();
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		String sql = "SELECT * FROM RESTAURANT WHERE RNAME LIKE '%' || ? || '%'";
+		String sql = "SELECT * FROM (SELECT ROWNUM RN, A.* FROM (SELECT RESTAURANT.*, (SELECT AVG(AVG) FROM RAVG WHERE RNO=RESTAURANT.RNO)RAVG FROM RESTAURANT WHERE RPLACE LIKE '%' || ? || '%' ORDER BY RAVG) A)"
+				+ " WHERE RN BETWEEN ? AND ?";
 		try {
 			conn = ds.getConnection();
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, rname);
+			pstmt.setString(1, rplace);
+			pstmt.setInt(2, startRow);
+			pstmt.setInt(3, endRow);
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
 				int rno = rs.getInt("rno");
 				String mid = rs.getString("mid");
 				int cno = rs.getInt("cno");
-				rname = rs.getString("rname");
+				String rname = rs.getString("rname");
 				String rcontent = rs.getString("rcontent");
-				String rplace = rs.getString("rplace");
+				rplace = rs.getString("rplace");
 				String mainimg = rs.getString("mainimg");
 				String subimg1 = rs.getString("subimg1");
 				String subimg2 = rs.getString("subimg2");
@@ -450,12 +453,55 @@ public class RestaurantDao {
 				int rhit = rs.getInt("rhit");
 				Timestamp rrdate = rs.getTimestamp("rrdate");
 				int avghit = rs.getInt("avghit");
+				double ravg = rs.getDouble("ravg");
 				dtos.add(new RestaurantDto(rno, mid, cno, rname, rcontent, rplace, mainimg, subimg1, subimg2, rtel,
-						rmenu, rprice, rhit, rrdate, avghit));
+						rmenu, rprice, rhit, rrdate, avghit, ravg));
 			}
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
+		} finally {
+			try {
+				if (rs != null)
+					rs.close();
+				if (pstmt != null)
+					pstmt.close();
+				if (conn != null)
+					conn.close();
+			} catch (SQLException e) {
+				System.out.println(e.getMessage());
+			}
 		}
 		return dtos;
+	}
+
+	// -- 9-2.  맛집 지역으로 검색(페이징)시 필요한 맛집 갯수
+	public int getRestaurantSchTotCnt(String rplace) {
+		int totCnt = 0;
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql = "SELECT COUNT(*) FROM RESTAURANT WHERE RPLACE LIKE '%' || ? || '%'";
+		try {
+			conn = ds.getConnection();
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, rplace);
+			rs = pstmt.executeQuery();
+			rs.next();
+			totCnt = rs.getInt(1);
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+		} finally {
+			try {
+				if (rs != null)
+					rs.close();
+				if (pstmt != null)
+					pstmt.close();
+				if (conn != null)
+					conn.close();
+			} catch (SQLException e) {
+				System.out.println(e.getMessage());
+			}
+		}
+		return totCnt;
 	}
 }

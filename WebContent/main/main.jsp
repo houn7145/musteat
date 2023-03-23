@@ -28,11 +28,10 @@
 								location.href = '${conPath }/restaurantCcodeList.do?cno='
 										+ cno;
 							}
-							$(this).css('color', '#f7c95e');
 						});
 	});
 </script>
-<link href="${conPath }/css/main.css" rel="stylesheet" type="text/css">
+<link href="${conPath }/css/main/main.css" rel="stylesheet" type="text/css">
 </head>
 <body>
 	<jsp:include page="../main/header.jsp" />
@@ -57,6 +56,7 @@
 								<li>
 									<img src="${conPath }/img/${dto.mainimg}"/>
 									<p>${dto.rname }</p>
+									<p>${dto.ravg }</p>
 									<p>${dto.rplace }</p>
 									<p>${dto.rmenu }</p>
 									<p>${dto.rtel }</p>

@@ -18,6 +18,7 @@ public class RestaurantDto {
 	private int rhit;
 	private Timestamp rrdate;
 	private int avghit;
+	private double ravg;
 	public RestaurantDto() {}
 	public RestaurantDto(int rno, String mid, int cno, String rname, String rcontent, String rplace, String mainimg,
 			String subimg1, String subimg2, String rtel, String rmenu, String rprice, int rhit, Timestamp rrdate,
@@ -37,6 +38,26 @@ public class RestaurantDto {
 		this.rhit = rhit;
 		this.rrdate = rrdate;
 		this.avghit = avghit;
+	}
+	public RestaurantDto(int rno, String mid, int cno, String rname, String rcontent, String rplace, String mainimg,
+			String subimg1, String subimg2, String rtel, String rmenu, String rprice, int rhit, Timestamp rrdate,
+			int avghit, double ravg) {
+		this.rno = rno;
+		this.mid = mid;
+		this.cno = cno;
+		this.rname = rname;
+		this.rcontent = rcontent;
+		this.rplace = rplace;
+		this.mainimg = mainimg;
+		this.subimg1 = subimg1;
+		this.subimg2 = subimg2;
+		this.rtel = rtel;
+		this.rmenu = rmenu;
+		this.rprice = rprice;
+		this.rhit = rhit;
+		this.rrdate = rrdate;
+		this.avghit = avghit;
+		this.ravg = ravg;
 	}
 	public int getRno() {
 		return rno;
@@ -127,6 +148,12 @@ public class RestaurantDto {
 	}
 	public void setAvghit(int avghit) {
 		this.avghit = avghit;
+	}
+	public double getRavg() {
+		return ravg;
+	}
+	public void setRavg(double ravg) {
+		this.ravg = ravg;
 	}
 	@Override
 	public String toString() {

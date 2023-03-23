@@ -172,6 +172,11 @@ public class FrontController extends HttpServlet {
 			// service = new RestaurantDeleteService();
 			service.execute(request, response);
 			viewPage = "restaurant/restaurantList.jsp";
+		
+		}else if(command.equals("/restaurantSchList.do")) { // 맛집 이름으로 검색시 맛집 목록 출력 페이지로
+			service = new restaurantSchListService();
+			service.execute(request, response);
+			viewPage = "restaurant/restaurantSchList.jsp";
 			
 			/************************************************
 			 **************** oneReview 관련 요청 *****************

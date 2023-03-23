@@ -1,0 +1,60 @@
+@charset "UTF-8";
+
+@font-face {
+	font-family: 'pop-Light';
+	src: url('../../fonts/ONE Mobile Light.ttf') format('woff');
+}
+
+*{
+	margin:0;
+	padding:0;
+	font-family:'pop-Light';
+}
+
+li {
+	list-style: none;
+}
+
+#search_warp {
+	width:1000px;
+	height:600px;
+	margin: 0 auto;
+}
+.schList {
+	width:100%;
+	height:600px;
+	border:1px solid gray;
+}
+
+#search_warp h2 {
+	color:#f5af36;
+	font-weight: bold;
+	margin-top:10px;
+}
+
+#restaurantTable {
+	overflow: hidden;
+}
+
+#schList img {
+	float:left;
+	border-radius: 20%;
+}
+
+#restaurantInfo {
+	
+}
+
+#restaurantInfo h3{
+	margin:10px;
+}
+
+#restaurantInfo h4:first-of-type{
+	margin:10px;
+}
+
+#restaurantInfo h4:nth-of-type(2){
+	border:1px solid gray;
+}
+
+

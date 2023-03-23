@@ -2,7 +2,7 @@
 
 @font-face {
 	font-family: 'pop-Light';
-	src: url('../fonts/ONE Mobile Light.ttf') format('woff');
+	src: url('../../fonts/ONE Mobile Light.ttf') format('woff');
 }
 
 * {

@@ -8,27 +8,81 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Insert title here</title>
-	<link href="${conPath }/css/header.css" rel="stylesheet" type="text/css">
+	<link href="${conPath }/css/main/header.css" rel="stylesheet" type="text/css">
 </head>
 <body>
 	<header>
-		<div id="header_wrap">
-			<div class="sch">
-				<form action="">
-				<img src="${conPath }/img/Mlogo.png" width="250px" height="70px"/><input type="text" value="${rname }"><input type="submit">
-				</form>
+		<c:if test="${empty member and empty admin }">
+			<div id="header_wrap">
+				<img src="${conPath }/img/Mlogo.png" width="250px" height="70px"/>
+				<div class="gnb">
+					<div class="search">
+						<form action="${conPath }/restaurantSchList.do">
+							<input type="text" name="rplace" id="inputSch" placeholder="지역 검색">
+							<input type="submit" id="submitImg" value="">
+						</form>	
+					</div>
+				</div>
+				<div class="join">
+					<b>회원가입</b>
+					<b>로그인</b>
+				</div>
+				<div class="lnb">
+					<ul>
+						<li>공지사항</li>
+						<li>자유게시판</li>
+						<li>맛집 등록</li>
+					</ul>
+				</div>
 			</div>
-			<div class="join">
-				<span>회원가입</span>
-				<span>로그인</span>
+		</c:if>
+		<c:if test="${not empty member and not empty admin }">
+			<div id="header_wrap">
+				<img src="${conPath }/img/Mlogo.png" width="250px" height="70px"/>
+				<div class="gnb">
+					<div class="search">
+						<form action="${conPath }/restaurantSchList.do">
+							<input type="text" name="rplace" id="inputSch" placeholder="지역 검색">
+							<input type="submit" id="submitImg" value="">
+						</form>	
+					</div>
+				</div>
+				<div class="join">
+					<b>정보수정</b>
+					<b>로그아웃</b>
+				</div>
+				<div class="lnb">
+					<ul>
+						<li>공지사항</li>
+						<li>자유게시판</li>
+						<li>맛집 등록</li>
+					</ul>
+				</div>
 			</div>
-			<div class="lnb">
-				<ul>
-					<li>공지사항</li>
-					<li>자유게시판</li>
-				</ul>
+		</c:if>
+		<c:if test="${empty member and not empty admin }">
+			<div id="header_wrap">
+				<img src="${conPath }/img/Mlogo.png" width="250px" height="70px"/>
+				<div class="gnb">
+					<div class="search">
+						<form action="${conPath }/restaurantSchList.do">
+							<input type="text" name="rplace" id="inputSch" placeholder="지역 검색">
+							<input type="submit" id="submitImg" value="">
+						</form>	
+					</div>
+				</div>
+				<div class="join">
+					<b>회원관리</b>
+					<b>로그아웃</b>
+				</div>
+				<div class="lnb">
+					<ul>
+						<li>공지사항</li>
+						<li>자유게시판</li>
+					</ul>
+				</div>
 			</div>
-		</div>
+		</c:if>
 	</header>
 </body>
 </html>

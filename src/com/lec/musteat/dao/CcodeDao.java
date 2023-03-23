@@ -124,8 +124,8 @@ public class CcodeDao {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		String sql = "SELECT * FROM (SELECT ROWNUM RN, A.* FROM (SELECT * FROM RESTAURANT WHERE CNO = ? ORDER BY RRDATE DESC)A)" + 
-				"    WHERE RN BETWEEN ? AND ?";
+		String sql = "SELECT * FROM (SELECT ROWNUM RN, A.* FROM (SELECT RESTAURANT.*, (SELECT AVG(AVG) FROM RAVG WHERE RNO=RESTAURANT.RNO)RAVG FROM RESTAURANT WHERE CNO = ? ORDER BY RAVG) A)" + 
+				" WHERE RN BETWEEN ? AND ?";
 		try {
 			conn = ds.getConnection();
 			pstmt = conn.prepareStatement(sql);
@@ -148,8 +148,9 @@ public class CcodeDao {
 				int rhit = rs.getInt("rhit");
 				Timestamp rrdate = rs.getTimestamp("rrdate");
 				int avghit = rs.getInt("avghit");
+				double ravg = rs.getInt("ravg");
 				Restaurants.add(new RestaurantDto(rno, mid, cno, rname, rcontent, rplace, mainimg, subimg1, subimg2,
-						rtel, rmenu, rprice, rhit, rrdate, avghit));
+						rtel, rmenu, rprice, rhit, rrdate, avghit, ravg));
 			}
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
