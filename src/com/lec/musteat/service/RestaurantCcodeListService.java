@@ -11,9 +11,13 @@ public class RestaurantCcodeListService implements Service {
 	public void execute(HttpServletRequest request, HttpServletResponse response) {
 		String pageNum = request.getParameter("pageNm");
 		if(pageNum == null) pageNum = "1";
+<<<<<<< HEAD
 		String cnoStr = request.getParameter("cno");
 		if(cnoStr == null) cnoStr = "1";
 		int cno = Integer.parseInt(cnoStr);
+=======
+		int cno = Integer.parseInt(request.getParameter("cno"));
+>>>>>>> da84813b46552efaab71568f3a20e6ebe0411bf0
 		int CurrentPage = Integer.parseInt(pageNum);
 		final int PAGESIZE = 4, BLOCKSIZE = 5;
 		int startRow = (CurrentPage - 1) * PAGESIZE + 1;

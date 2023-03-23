@@ -31,9 +31,13 @@ public class FrontController extends HttpServlet {
 		String viewPage = null;
 		Service service = null;
 		
+<<<<<<< HEAD
 		if(command.equals("/main.do") || command.equals("/restaurantCcodeList.do")) { // main 화면 - 카테고리별 맛집 출력 | 카테고리 클릭시 페이징처리
 			service = new RestaurantCcodeListService();
 			service.execute(request, response);
+=======
+		if(command.equals("/main.do")) { // main 화면
+>>>>>>> da84813b46552efaab71568f3a20e6ebe0411bf0
 			viewPage = "main/main.jsp";
 			
 			/************************************************
@@ -178,6 +182,14 @@ public class FrontController extends HttpServlet {
 			service.execute(request, response);
 			viewPage = "restaurant/restaurantSchList.jsp";
 			
+<<<<<<< HEAD
+=======
+		}else if(command.equals("restaurantCcodeList.do")) { // 메인페이지에서 카테고리별 맛집 목록 출력
+			service = new RestaurantCcodeListService();
+			service.execute(request, response);
+			viewPage = "main/main.jsp";
+			
+>>>>>>> da84813b46552efaab71568f3a20e6ebe0411bf0
 			/************************************************
 			 **************** oneReview 관련 요청 *****************
 			 ************************************************/
@@ -263,7 +275,11 @@ public class FrontController extends HttpServlet {
 			 **************** Ccode 관련 요청 *****************
 			 ************************************************/
 			
+<<<<<<< HEAD
 		}else if(command.equals("/ccodeList.do")) { // 카테고리 출력
+=======
+		}else if(command.equals("/ccodeList.do")) {
+>>>>>>> da84813b46552efaab71568f3a20e6ebe0411bf0
 			service = new CcodeListService();
 			service.execute(request, response);
 			viewPage = "main/main.jsp";

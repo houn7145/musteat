@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
+<<<<<<< HEAD
 	pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
@@ -73,4 +74,34 @@
 	<jsp:include page="../main/footer.jsp" />
 </body>
 </html>
+<<<<<<< HEAD
 
+=======
+=======
+    pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<c:set var="conPath" value="${pageContext.request.contextPath }"/>
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Insert title here</title>
+</head>
+<body>
+	<form action="">
+		<table>
+			<caption>카테고리</caption>
+			<tr>
+				<c:forEach var="dto" items="${Ccodes }">
+					<td>
+						${dto.cname }
+					</td>
+				</c:forEach>
+			</tr>
+		</table>
+	</form>
+</body>
+</html>
+>>>>>>> da84813b46552efaab71568f3a20e6ebe0411bf0
+>>>>>>> 5336f9ea5f4207c795702122967dfd7e717f9596
