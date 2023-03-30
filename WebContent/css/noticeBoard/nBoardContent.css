@@ -1,0 +1,234 @@
+@charset "UTF-8";
+
+@font-face {
+	font-family: 'pop-Light';
+	src: url('../../fonts/ONE Mobile Light.ttf') format('woff');
+}
+
+* {
+	margin: 0; 
+	padding: 0;
+	font-family: 'pop-Light';
+}
+
+li {
+	list-style: none;
+}
+
+#content_warp {
+	width: 1000px;
+	height:100%;
+	margin: 0 auto;
+
+}
+
+.content_title {
+	margin-top:30px;
+}
+
+.content_title h3{
+	margin-left: 70px;
+}
+
+.content_title ul{
+	overflow: hidden;
+	margin-left: 70px;
+}
+
+.content_title ul li {
+	float: left;
+	font-size: 0.8em;
+	margin: 10px 10px 0 0;
+}
+
+#content_warp hr {
+	width:850px;
+	height:0.5px;
+	background:#f7c95e;
+	margin: 10px 0 5px 70px;
+    border:0;
+}
+
+.content_main {
+	margin-top:30px
+}
+
+.content_main .fcontent {	
+	width:850px;
+	height: 100%;
+	margin-left:70px;
+}
+
+.fcontent pre {
+	white-space: pre-wrap; 
+	padding:10px;
+	line-height: 30px;
+}
+
+.img1, .img2{
+	margin: 5px 0 20px 70px;
+}
+
+.btn {
+	text-align: center;
+}
+
+.btn button{
+	width:80px;
+	height: 40px;
+	background-color: #f7c95e;
+	color:white;
+	border-radius: 20px;
+	border:none; 
+	font-size:1.2em;
+	cursor:pointer;
+	margin: 30px 15px 0 0;
+}
+
+/********** nBoardList **********/
+
+#board_warp a {
+	text-decoration: none;
+	color:black;
+	font-weight: bold;
+}
+
+#board_warp {
+	width: 1000px;
+	height:100%;
+	margin: 0 auto;
+	text-align: center;
+}
+
+.list_content {
+	margin:50px 10px 0 10px;
+	width:100%;
+}
+
+.list_title h2{
+	width:300px;
+	text-align: left;
+	margin-left: 60px;
+}
+
+.write{
+	overflow: hidden;
+	height:20px;
+}
+
+.write span{
+	width:50px;
+	float: right;
+	margin-right:90px;
+}
+
+#board_warp hr {
+	width:850px;
+	height:0.5px;
+	background:#f7c95e;
+	margin: 10px 0 5px 60px;
+    border:0;
+}
+
+#board_warp table {
+	border-collapse: collapse;
+	margin-left: 90px;
+	width:80%;
+}
+
+#board_warp table tr{
+	height:50px;
+	border-bottom: 1px solid #fadb93;
+}
+
+#board_warp table tr:not(:first-of-type) {
+	cursor: pointer;
+}
+
+#board_warp .left {
+	text-align: left;
+}
+
+
+/**** 페이징 처리 ****/
+
+#board_warp .boardFooter{
+	overflow: hidden;
+	position: relative;
+	padding-top:40px;
+}
+
+#board_warp .paging {
+	margin-bottom:30px;
+}
+
+#board_warp .search{
+	width:150px;
+	position: absolute;
+	top: 10px;
+	right: 130px;
+}
+
+.search .inputSch {
+	border: 1px solid #f7c95e;
+  	width: 130px;
+  	height: 30px;
+  	border-radius: 50px;
+  	background-color: #fff;
+  	padding:0 30px 0 15px;
+}
+
+.search .inputSch:focus {
+	outline:1px solid #dea514;
+}
+
+.search .submitImg {
+	background:url(../../icon/search.png);
+	background-repeat: no-repeat;
+	background-size: 23px 23px;
+	position : absolute;
+	border: 0; 
+    outline: none;
+	width: 23px;
+	height: 23px;
+	top: 4px;
+    right: -20px; 
+    cursor: pointer;
+}
+
+#board_warp .paging ul {
+	text-align:center;
+}
+#board_warp .paging ul li {
+	display:inline;
+	vertical-align:middle;
+}
+#board_warp .paging ul li a {
+	display:-moz-inline-stack;
+	display:inline-block;
+	vertical-align:top;
+	padding:4px;
+	margin-right:3px;
+	width:15px !important;
+	color:#000;
+	font:bold 12px tahoma;
+	border:1px solid #eee;
+	text-align:center;
+	text-decoration:none;
+	width /**/:26px;	
+
+}
+#board_warp .paging .now a{
+	color:#fff;
+	background-color:#fca949;
+	border:1px solid #fca949;
+}
+#board_warp .paging ul li a:hover, ul li a:focus {
+	color:#fff;
+	border:1px solid #fca949;
+	background-color:#fca949;
+}
+
+.paging .search {
+	float: right;
+}

@@ -29,132 +29,36 @@ public class CcodeDao {
 		}
 	}
 
-	// -- 1. 카테고리 추가
-	public int insertCcode(CcodeDto dto) {
-		int result = FAIL;
-		Connection conn = null;
-		PreparedStatement pstmt = null;
-		String sql = "INSERT INTO CCODE (CNO, CNAME)" + "    VALUES (CCODE_SEQ.NEXTVAL, ?)";
-		try {
-			conn = ds.getConnection();
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, dto.getCname());
-			pstmt.executeUpdate();
-			result = SUCCESS;
-			System.out.println("카테고리 등록 성공");
-		} catch (SQLException e) {
-			System.out.println(e.getMessage() + "카테고리 등록 실패");
-		} finally {
-			try {
-				if (pstmt != null)
-					pstmt.close();
-				if (conn != null)
-					conn.close();
-			} catch (SQLException e) {
-				System.out.println(e.getMessage());
-			}
-		}
-		return result;
-	}
-
-	// -- 2. 카테고리 삭제
-	public int deleteCcode(String cname) {
-		int result = FAIL;
-		Connection conn = null;
-		PreparedStatement pstmt = null;
-		String sql = "DELETE FROM CCODE WHERE CNAME = ?";
-		try {
-			conn = ds.getConnection();
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, cname);
-			pstmt.executeUpdate();
-			result = SUCCESS;
-			System.out.println("카테고리 삭제 성공");
-		} catch (SQLException e) {
-			System.out.println(e.getMessage() + "카테고리 삭제 실패");
-		} finally {
-			try {
-				if (pstmt != null)
-					pstmt.close();
-				if (conn != null)
-					conn.close();
-			} catch (SQLException e) {
-				System.out.println(e.getMessage());
-			}
-		}
-		return result;
-	}
-
-	// -- 3. 카테고리 출력
-	public ArrayList<CcodeDto> listCcode() {
-		ArrayList<CcodeDto> codes = new ArrayList<CcodeDto>();
-		Connection conn = null;
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		String sql = "SELECT * FROM CCODE";
-		try {
-			conn = ds.getConnection();
-			pstmt = conn.prepareStatement(sql);
-			rs = pstmt.executeQuery();
-			while (rs.next()) {
-				int cno = rs.getInt("cno");
-				String cname = rs.getString("cname");
-				codes.add(new CcodeDto(cno, cname));
-			}
-		} catch (SQLException e) {
-			System.out.println(e.getMessage());
-		} finally {
-			try {
-				if (rs != null)
-					rs.close();
-				if (pstmt != null)
-					pstmt.close();
-				if (conn != null)
-					conn.close();
-			} catch (SQLException e) {
-				System.out.println(e.getMessage());
-			}
-		}
-		return codes;
-	}
-	
-	// -- 4. 메인페이지 카테고리 별 맛집 출력 - 페이징
-	public ArrayList<RestaurantDto> getCcodeRestaurantList(int cno, int startRow, int endRow) {
+	// -- 1. 메인페이지 카테고리 별 맛집 출력 - 페이징
+	public ArrayList<RestaurantDto> getCcodeRestaurantList(int cno) {
 		ArrayList<RestaurantDto> Restaurants = new ArrayList<RestaurantDto>();
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		String sql = "SELECT * FROM (SELECT ROWNUM RN, A.* FROM (SELECT RESTAURANT.*, (SELECT AVG(AVG) FROM RAVG WHERE RNO=RESTAURANT.RNO)RAVG FROM RESTAURANT WHERE CNO = ? ORDER BY RAVG) A)" + 
-				" WHERE RN BETWEEN ? AND ?";
+		String sql = "SELECT * FROM (SELECT ROWNUM RN, A.* FROM (SELECT R.*, C.CNAME, (SELECT AVG(RATING) FROM RAVG A WHERE A.RNO = R.RNO)RAVG FROM RESTAURANT R, CCODE C WHERE C.CNO = ? AND C.CNO = R.CNO ORDER BY RAVG) A)" + 
+				" WHERE RN BETWEEN 1 AND 5";
 		try {
 			conn = ds.getConnection();
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, cno);
-			pstmt.setInt(2, startRow);
-			pstmt.setInt(3, endRow);
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
 				int rno = rs.getInt("rno");
 				String mid = rs.getString("mid");
 				String rname = rs.getString("rname");
 				String rcontent = rs.getString("rcontent");
-<<<<<<< HEAD
 				String rplace = rs.getString("rplace");
-=======
-				String rplace = rs.getString("rcontent");
->>>>>>> da84813b46552efaab71568f3a20e6ebe0411bf0
 				String mainimg = rs.getString("mainimg");
-				String subimg1 = rs.getString("subimg1");
-				String subimg2 = rs.getString("subimg2");
 				String rtel = rs.getString("rtel");
 				String rmenu = rs.getString("rmenu");
 				String rprice = rs.getString("rprice");
 				int rhit = rs.getInt("rhit");
 				Timestamp rrdate = rs.getTimestamp("rrdate");
 				int avghit = rs.getInt("avghit");
-				double ravg = rs.getInt("ravg");
-				Restaurants.add(new RestaurantDto(rno, mid, cno, rname, rcontent, rplace, mainimg, subimg1, subimg2,
-						rtel, rmenu, rprice, rhit, rrdate, avghit, ravg));
+				int ravg = rs.getInt("ravg");
+				String cname = rs.getString("cname");
+				Restaurants.add(new RestaurantDto(rno, mid, cno, rname, rcontent, rplace, mainimg,
+						rtel, rmenu, rprice, rhit, rrdate, avghit, ravg, cname));
 			}
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
@@ -173,7 +77,7 @@ public class CcodeDao {
 		return Restaurants;
 	}
 	
-	// -- 4-2. 카테고리 별 맛집 출력시 필요한 맛집 갯수
+	// -- 2. 카테고리 별 맛집 출력시 필요한 맛집 갯수
 	public int getRestaurantTotCnt(int cno) {
 		int totCnt = 0;
 		Connection conn = null;

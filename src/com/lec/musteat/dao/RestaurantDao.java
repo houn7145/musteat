@@ -51,16 +51,13 @@ public class RestaurantDao {
 				String rcontent = rs.getString("rcontent");
 				String rplace = rs.getString("rcontent");
 				String mainimg = rs.getString("mainimg");
-				String subimg1 = rs.getString("subimg1");
-				String subimg2 = rs.getString("subimg2");
 				String rtel = rs.getString("rtel");
 				String rmenu = rs.getString("rmenu");
 				String rprice = rs.getString("rprice");
 				int rhit = rs.getInt("rhit");
 				Timestamp rrdate = rs.getTimestamp("rrdate");
 				int avghit = rs.getInt("avghit");
-				Restaurants.add(new RestaurantDto(rno, mid, cno, rname, rcontent, rplace, mainimg, subimg1, subimg2,
-						rtel, rmenu, rprice, rhit, rrdate, avghit));
+				Restaurants.add(new RestaurantDto(rno, mid, cno, rname, rcontent, rplace, mainimg, rtel, rmenu, rprice, rhit, rrdate, avghit));
 			}
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
@@ -114,7 +111,7 @@ public class RestaurantDao {
 		int result = FAIL;
 		Connection conn = null;
 		PreparedStatement pstmt = null;
-		String sql = "INSERT INTO RESTAURANT (RNO, MID, CNO, RPLACE, RNAME, RCONTENT, MAINIMG, SUBIMG1, SUBIMG2, RTEL, RMENU, RPRICE)"
+		String sql = "INSERT INTO RESTAURANT (RNO, MID, CNO, RPLACE, RNAME, RCONTENT, MAINIMG, RTEL, RMENU, RPRICE)"
 				+ "    VALUES (RES_SEQ.NEXTVAL, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 		try {
 			conn = ds.getConnection();
@@ -125,11 +122,9 @@ public class RestaurantDao {
 			pstmt.setString(4, dto.getRname());
 			pstmt.setString(5, dto.getRcontent());
 			pstmt.setString(6, dto.getMainimg());
-			pstmt.setString(7, dto.getSubimg1());
-			pstmt.setString(8, dto.getSubimg2());
-			pstmt.setString(9, dto.getRtel());
-			pstmt.setString(10, dto.getRmenu());
-			pstmt.setString(11, dto.getRprice());
+			pstmt.setString(7, dto.getRtel());
+			pstmt.setString(8, dto.getRmenu());
+			pstmt.setString(9, dto.getRprice());
 			pstmt.executeUpdate();
 			result = SUCCESS;
 			System.out.println("등록 성공");
@@ -155,8 +150,7 @@ public class RestaurantDao {
 		PreparedStatement pstmt = null;
 		String sql = "UPDATE RESTAURANT SET CNO = ?," + "                      RPLACE = ?,"
 				+ "                      RNAME = ?," + "                      RCONTENT = ?,"
-				+ "                      MAINIMG = ?," + "                      SUBIMG1 = ?,"
-				+ "                      SUBIMG2 = ?," + "                      RTEL = ?,"
+				+ "                      MAINIMG = ?," + "                     RTEL = ?,"
 				+ "					   RMENU = ?," + "                      RPRICE = ?" + "    WHERE RNO = ?";
 		try {
 			conn = ds.getConnection();
@@ -166,12 +160,10 @@ public class RestaurantDao {
 			pstmt.setString(3, dto.getRname());
 			pstmt.setString(4, dto.getRcontent());
 			pstmt.setString(5, dto.getMainimg());
-			pstmt.setString(6, dto.getSubimg1());
-			pstmt.setString(7, dto.getSubimg2());
-			pstmt.setString(8, dto.getRtel());
-			pstmt.setString(9, dto.getRmenu());
-			pstmt.setString(10, dto.getRprice());
-			pstmt.setInt(11, dto.getRno());
+			pstmt.setString(6, dto.getRtel());
+			pstmt.setString(7, dto.getRmenu());
+			pstmt.setString(8, dto.getRprice());
+			pstmt.setInt(9, dto.getRno());
 			pstmt.executeUpdate();
 			result = SUCCESS;
 			System.out.println("정보수정 성공");
@@ -191,7 +183,7 @@ public class RestaurantDao {
 	}
 
 	// -- 4. 등록한 맛집 삭제
-	public int DeleteRestaurant(String rno) {
+	public int DeleteRestaurant(int rno) {
 		int result = FAIL;
 		Connection conn = null;
 		PreparedStatement pstmt = null;
@@ -199,7 +191,7 @@ public class RestaurantDao {
 		try {
 			conn = ds.getConnection();
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, rno);
+			pstmt.setInt(1, rno);
 			pstmt.executeUpdate();
 			result = SUCCESS;
 			System.out.println("맛집삭제 성공");
@@ -223,12 +215,12 @@ public class RestaurantDao {
 		int result = FAIL;
 		Connection conn = null;
 		PreparedStatement pstmt = null;
-		String sql = "INSERT INTO RAVG (ANO, RNO, AVG)" + "    VALUES (RAVG_SEQ.NEXTVAL, ?, ?)";
+		String sql = "INSERT INTO RAVG (ANO, RNO, RATING)" + "    VALUES (RAVG_SEQ.NEXTVAL, ?, ?)";
 		try {
 			conn = ds.getConnection();
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, dto.getRno());
-			pstmt.setDouble(2, dto.getAvg());
+			pstmt.setDouble(2, dto.getrating());
 			pstmt.executeUpdate();
 			result = SUCCESS;
 			System.out.println("평점등록 성공");
@@ -278,7 +270,7 @@ public class RestaurantDao {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		String sql = "SELECT AVG(AVG) FROM RAVG WHERE RNO = ?";
+		String sql = "SELECT (AVG(RATING) FROM RAVG WHERE RNO = ?";
 		try {
 			conn = ds.getConnection();
 			pstmt = conn.prepareStatement(sql);
@@ -346,15 +338,13 @@ public class RestaurantDao {
 				String rcontent = rs.getString("rcontent");
 				String rplace = rs.getString("rplace");
 				String mainimg = rs.getString("mainimg");
-				String subimg1 = rs.getString("subimg1");
-				String subimg2 = rs.getString("subimg2");
 				String rtel = rs.getString("rtel");
 				String rmenu = rs.getString("rmenu");
 				String rprice = rs.getString("rprice");
 				int rhit = rs.getInt("rhit");
 				Timestamp rrdate = rs.getTimestamp("rrdate");
 				int avghit = rs.getInt("avghit");
-				dto = new RestaurantDto(rno, mid, cno, rname, rcontent, rplace, mainimg, subimg1, subimg2, rtel, rmenu,
+				dto = new RestaurantDto(rno, mid, cno, rname, rcontent, rplace, mainimg, rtel, rmenu,
 						rprice, rhit, rrdate, avghit);
 			}
 		} catch (SQLException e) {
@@ -381,7 +371,7 @@ public class RestaurantDao {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		String sql = "SELECT * FROM RESTAURANT WHERE RNO = ?";
+		String sql = "SELECT R.*, C.CNAME, (SELECT AVG(RATING) FROM RAVG A WHERE A.RNO = R.RNO)RAVG FROM RESTAURANT R, CCODE C WHERE C.CNO = R.CNO AND RNO = ?";
 		try {
 			conn = ds.getConnection();
 			pstmt = conn.prepareStatement(sql);
@@ -394,16 +384,15 @@ public class RestaurantDao {
 				String rcontent = rs.getString("rcontent");
 				String rplace = rs.getString("rplace");
 				String mainimg = rs.getString("mainimg");
-				String subimg1 = rs.getString("subimg1");
-				String subimg2 = rs.getString("subimg2");
 				String rtel = rs.getString("rtel");
 				String rmenu = rs.getString("rmenu");
 				String rprice = rs.getString("rprice");
 				int rhit = rs.getInt("rhit");
 				Timestamp rrdate = rs.getTimestamp("rrdate");
 				int avghit = rs.getInt("avghit");
-				dto = new RestaurantDto(rno, mid, cno, rname, rcontent, rplace, mainimg, subimg1, subimg2, rtel, rmenu,
-						rprice, rhit, rrdate, avghit);
+				String cname = rs.getString("cname");
+				double ravg = rs.getDouble("ravg");
+				dto = new RestaurantDto(rno, mid, cno, rname, rcontent, rplace, mainimg, rtel, rmenu, rprice, rhit, rrdate, avghit, ravg, cname);
 			}
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
@@ -428,7 +417,7 @@ public class RestaurantDao {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		String sql = "SELECT * FROM (SELECT ROWNUM RN, A.* FROM (SELECT RESTAURANT.*, (SELECT AVG(AVG) FROM RAVG WHERE RNO=RESTAURANT.RNO)RAVG FROM RESTAURANT WHERE RPLACE LIKE '%' || ? || '%' ORDER BY RAVG) A)"
+		String sql = "SELECT * FROM (SELECT ROWNUM RN, A.* FROM (SELECT RESTAURANT.*, (SELECT AVG(RATING) FROM RAVG WHERE RNO=RESTAURANT.RNO)RAVG FROM RESTAURANT WHERE RPLACE LIKE '%' || ? || '%' ORDER BY RAVG) A)"
 				+ " WHERE RN BETWEEN ? AND ?";
 		try {
 			conn = ds.getConnection();
@@ -445,8 +434,6 @@ public class RestaurantDao {
 				String rcontent = rs.getString("rcontent");
 				rplace = rs.getString("rplace");
 				String mainimg = rs.getString("mainimg");
-				String subimg1 = rs.getString("subimg1");
-				String subimg2 = rs.getString("subimg2");
 				String rtel = rs.getString("rtel");
 				String rmenu = rs.getString("rmenu");
 				String rprice = rs.getString("rprice");
@@ -454,7 +441,7 @@ public class RestaurantDao {
 				Timestamp rrdate = rs.getTimestamp("rrdate");
 				int avghit = rs.getInt("avghit");
 				double ravg = rs.getDouble("ravg");
-				dtos.add(new RestaurantDto(rno, mid, cno, rname, rcontent, rplace, mainimg, subimg1, subimg2, rtel,
+				dtos.add(new RestaurantDto(rno, mid, cno, rname, rcontent, rplace, mainimg, rtel,
 						rmenu, rprice, rhit, rrdate, avghit, ravg));
 			}
 		} catch (SQLException e) {
@@ -495,7 +482,7 @@ public class RestaurantDao {
 				if (rs != null)
 					rs.close();
 				if (pstmt != null)
-					pstmt.close();
+					pstmt.close(); 
 				if (conn != null)
 					conn.close();
 			} catch (SQLException e) {
@@ -503,5 +490,51 @@ public class RestaurantDao {
 			}
 		}
 		return totCnt;
+	}
+	
+	// 10. 평점을 5명 이상 등록한 맛집 출력(메인페이지)
+	public ArrayList<RestaurantDto> getRavgRestaurant() {
+		ArrayList<RestaurantDto> dtos = new ArrayList<RestaurantDto>();
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql = "SELECT RESTAURANT.*, C.CNAME, RAVG.RAVG FROM RESTAURANT, CCODE C, (SELECT R.RNAME, AVG(RATING)RAVG FROM RAVG, RESTAURANT R WHERE RAVG.RNO = R.RNO GROUP BY R.RNAME HAVING AVG(RATING) > 4)RAVG WHERE RESTAURANT.RNAME = RAVG.RNAME AND RESTAURANT.AVGHIT >= 5 AND RESTAURANT.CNO = C.CNO";
+		try {
+			conn = ds.getConnection();
+			pstmt = conn.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				int rno = rs.getInt("rno");
+				String mid = rs.getString("mid");
+				int cno = rs.getInt("cno");
+				String rname = rs.getString("rname");
+				String rcontent = rs.getString("rcontent");
+				String rplace = rs.getString("rplace");
+				String mainimg = rs.getString("mainimg");
+				String rtel = rs.getString("rtel");
+				String rmenu = rs.getString("rmenu");
+				String rprice = rs.getString("rprice");
+				int rhit = rs.getInt("rhit");
+				Timestamp rrdate = rs.getTimestamp("rrdate");
+				int avghit = rs.getInt("avghit");
+				double ravg = rs.getDouble("ravg");
+				dtos.add(new RestaurantDto(rno, mid, cno, rname, rcontent, rplace, mainimg, rtel,
+						rmenu, rprice, rhit, rrdate, avghit, ravg));
+			}
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+		} finally {
+			try {
+				if (rs != null)
+					rs.close();
+				if (pstmt != null)
+					pstmt.close();
+				if (conn != null)
+					conn.close();
+			} catch (SQLException e) {
+				System.out.println(e.getMessage());
+			}
+		}
+		return dtos;
 	}
 }

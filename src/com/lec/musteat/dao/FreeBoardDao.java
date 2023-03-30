@@ -29,7 +29,7 @@ public class FreeBoardDao {
 	}
 	
 	// -- 1. 자유게시판 글 등록(원글)
-	public int insertOneReview(FreeBoardDto dto) {
+	public int insertFreeBoard(FreeBoardDto dto) {
 		int result = FAIL;
 		Connection 		  conn 	= null;
 		PreparedStatement pstmt = null;
@@ -67,7 +67,7 @@ public class FreeBoardDao {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		String sql = "SELECT * FROM (SELECT ROWNUM RN, A.* FROM (SELECT * FROM FREEBOARD ORDER BY FGROUP DESC, FSTEP)A)" + 
+		String sql = "SELECT * FROM (SELECT ROWNUM RN, A.* FROM (SELECT M.MNAME, F.* FROM FREEBOARD F, MEMBER M WHERE M.MID = F.MID ORDER BY FGROUP DESC, FSTEP)A)" + 
 				"    WHERE RN BETWEEN ? AND ?";
 		try {
 			conn = ds.getConnection();
@@ -78,6 +78,7 @@ public class FreeBoardDao {
 			while(rs.next()) {
 				int fno = rs.getInt("fno");
 				String mid = rs.getString("mid");
+				String mname = rs.getNString("mname");
 				String ftitle = rs.getString("ftitle");
 				String fcontent = rs.getString("fcontent");
 				String fimage1 = rs.getString("fimage1");
@@ -87,7 +88,7 @@ public class FreeBoardDao {
 				int fgroup = rs.getInt("fgroup");
 				int fstep = rs.getInt("fstep");
 				int findent = rs.getInt("findent");
-				dtos.add(new FreeBoardDto(fno, mid, ftitle, fcontent, fimage1, fimage2, frdate, fhit, fgroup, fstep, findent));
+				dtos.add(new FreeBoardDto(fno, mid, ftitle, fcontent, fimage1, fimage2, frdate, fhit, fgroup, fstep, findent, mname));
 			}
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
@@ -166,7 +167,7 @@ public class FreeBoardDao {
 		Connection        conn  = null;
 		PreparedStatement pstmt = null;
 		ResultSet         rs    = null;
-		String sql = "SELECT * FROM FREEBOARD WHERE FNO = ?";
+		String sql = "SELECT F.*, M.MNAME FROM FREEBOARD F, MEMBER M WHERE FNO = ? AND F.MID = M.MID";
 		try {
 			conn = ds.getConnection();
 			pstmt = conn.prepareStatement(sql);
@@ -180,10 +181,11 @@ public class FreeBoardDao {
 				String fimage2 = rs.getString("fimage2");
 				Timestamp frdate = rs.getTimestamp("frdate");
 				int    fhit = rs.getInt("fhit");
-				int    fgroup= rs.getInt("fgroup");
-				int    fstep= rs.getInt("fstep");
-				int    findent= rs.getInt("findent");
-				dto = new FreeBoardDto(fno, mid, ftitle, fcontent, fimage1, fimage2, frdate, fhit, fgroup, fstep, findent);
+				int    fgroup = rs.getInt("fgroup");
+				int    fstep = rs.getInt("fstep");
+				int    findent = rs.getInt("findent");
+				String mname = rs.getString("mname");
+				dto = new FreeBoardDto(fno, mid, ftitle, fcontent, fimage1, fimage2, frdate, fhit, fgroup, fstep, findent, mname);
 			}
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
@@ -205,7 +207,7 @@ public class FreeBoardDao {
 		Connection        conn  = null;
 		PreparedStatement pstmt = null;
 		ResultSet         rs    = null;
-		String sql = "SELECT * FROM FREEBOARD WHERE FNO = ?";
+		String sql = "SELECT F.*, M.MNAME FROM FREEBOARD F, MEMBER M WHERE FNO = ? AND F.MID = M.MID";
 		try {
 			conn = ds.getConnection();
 			pstmt = conn.prepareStatement(sql);
@@ -219,10 +221,11 @@ public class FreeBoardDao {
 				String fimage2 = rs.getString("fimage2");
 				Timestamp frdate = rs.getTimestamp("frdate");
 				int    fhit = rs.getInt("fhit");
-				int    fgroup= rs.getInt("fgroup");
-				int    fstep= rs.getInt("fstep");
-				int    findent= rs.getInt("findent");
-				dto = new FreeBoardDto(fno, mid, ftitle, fcontent, fimage1, fimage2, frdate, fhit, fgroup, fstep, findent);
+				int    fgroup = rs.getInt("fgroup");
+				int    fstep = rs.getInt("fstep");
+				int    findent = rs.getInt("findent");
+				String mname = rs.getString("mname");
+				dto = new FreeBoardDto(fno, mid, ftitle, fcontent, fimage1, fimage2, frdate, fhit, fgroup, fstep, findent, mname);
 			}
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
@@ -274,32 +277,55 @@ public class FreeBoardDao {
 		return result;
 	}
 	
-	// -- 6. 자유게시판 글 삭제
-	public int deleteFreeBoard(String fno) {
-		int result = FAIL;
-		Connection conn = null;
+	// -- 6-1. 자유게시판 글 삭제
+	public int deleteBoard(int fgroup, int fstep, int findent) {
+		int deleteCnt = FAIL;
+		Connection        conn  = null;
 		PreparedStatement pstmt = null;
-		String sql = "DELETE FROM FREEBOARD WHERE FNO = ?";
+		String sql = "DELETE FROM FREEBOARD WHERE FGROUP = ? AND (FSTEP>=? AND FSTEP<(select NVL(MIN(FSTEP),9999) FROM FREEBOARD WHERE FGROUP=? AND FSTEP>? AND FINDENT<=?))";
 		try {
 			conn = ds.getConnection();
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, fno);
-			pstmt.executeUpdate();
-			result = SUCCESS;
-			System.out.println("자유게시판 글 삭제 성공");
+			pstmt.setInt(1, fgroup);
+			pstmt.setInt(2, fstep);
+			pstmt.setInt(3, fgroup);
+			pstmt.setInt(4, fstep);
+			pstmt.setInt(5, findent);
+			deleteCnt = pstmt.executeUpdate();
+			postDelete(deleteCnt, fgroup, fstep); // 글삭제시 fstep 재조정
 		} catch (SQLException e) {
-			System.out.println(e.getMessage() + "자유게시판 글 삭제 실패");
+			System.out.println(e.getMessage());
+		}finally {
+			try {
+				if(pstmt!=null) pstmt.close();
+				if(conn !=null) conn.close();
+			} catch (SQLException e) {System.out.println(e.getMessage());}
+		}
+		return deleteCnt;
+	}
+	
+	//6-2 delete 수행후 fstep 재배열
+	private void postDelete(int deleteCnt, int fgroup, int fstep) {
+		Connection        conn  = null;
+		PreparedStatement pstmt = null;
+		String sql = "UPDATE FREEBOARD SET fSTEP = fSTEP-? WHERE fGROUP=? AND fSTEP>?";
+		try {
+			conn = ds.getConnection();
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, deleteCnt);
+			pstmt.setInt(2, fgroup);
+			pstmt.setInt(3, fstep);
+			int cnt = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
 		} finally {
 			try {
-				if (pstmt != null)
-					pstmt.close();
-				if (conn != null)
-					conn.close();
+				if(pstmt != null) pstmt.close();
+				if(conn  != null) conn.close();
 			} catch (SQLException e) {
 				System.out.println(e.getMessage());
-			}
+			} 
 		}
-		return result;
 	}
 	
 	// -- 7-1. 답변글 달기 선행답변글 쓰기 선행 단계(원글의 fgroup과 같고 원글의 fstep보다 크면 fstep을 1 증가)
@@ -361,17 +387,19 @@ public class FreeBoardDao {
 		return result;
 	}
 	
-	// -- 8. 자유게시판 글 검색
-	public ArrayList<FreeBoardDto> getSchFreeBoard(String ftitle) {
+	// -- 8-1. 자유게시판 글 검색
+	public ArrayList<FreeBoardDto> getSchFreeBoard(String ftitle, int startRow, int endRow) {
 		ArrayList<FreeBoardDto> dtos = new ArrayList<FreeBoardDto>();
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		String sql = "SELECT * FROM FREEBOARD WHERE FTITLE LIKE '%' || ? || '%'";
+		String sql = "SELECT * FROM (SELECT ROWNUM RN, A.* FROM (SELECT M.MNAME, F.* FROM FREEBOARD F, MEMBER M WHERE M.MID = F.MID AND F.FTITLE LIKE '%' || ? || '%' ORDER BY FGROUP DESC, FSTEP)A) WHERE RN BETWEEN ? AND ?";
 		try {
 			conn = ds.getConnection();
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, ftitle);
+			pstmt.setInt(2, startRow);
+			pstmt.setInt(3, endRow);
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
 				int fno = rs.getInt("fno");
@@ -385,11 +413,51 @@ public class FreeBoardDao {
 				int fgroup = rs.getInt("fgroup");
 				int fstep = rs.getInt("fstep");
 				int findent = rs.getInt("findent");
-				dtos.add(new FreeBoardDto(fno, mid, ftitle, fcontent, fimage1, fimage2, frdate, fhit, fgroup, fstep, findent));
+				String mname = rs.getString("mname");
+				dtos.add(new FreeBoardDto(fno, mid, ftitle, fcontent, fimage1, fimage2, frdate, fhit, fgroup, fstep, findent, mname));
 			}
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
+		} finally {
+			try {
+				if(rs  != null) rs.close();
+				if(pstmt != null) pstmt.close();
+				if(conn  != null) conn.close();
+			} catch (SQLException e) {
+				System.out.println(e.getMessage());
+			} 
 		}
 		return dtos;
+	}
+	
+	// -- 8-2. 자유게시판 검색시 조회된 글 갯수
+	public int getFreeBoardSchTotCnt(String ftitle) {
+		int totCnt = 0;
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql = "SELECT COUNT(*) FROM FREEBOARD WHERE FTITLE LIKE '%' || ? || '%'";
+		try {
+			conn = ds.getConnection();
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, ftitle);
+			rs = pstmt.executeQuery();
+			rs.next();
+			totCnt = rs.getInt(1);
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+		} finally {
+			try {
+				if (rs != null)
+					rs.close();
+				if (pstmt != null)
+					pstmt.close();
+				if (conn != null)
+					conn.close();
+			} catch (SQLException e) {
+				System.out.println(e.getMessage());
+			}
+		}
+		return totCnt;
 	}
 }

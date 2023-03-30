@@ -14,9 +14,10 @@ public class FreeBoardDto {
 	private int fgroup;
 	private int fstep;
 	private int findent;
+	private String mname;
 	public FreeBoardDto() {}
 	public FreeBoardDto(int fno, String mid, String ftitle, String fcontent, String fimage1, String fimage2,
-			Timestamp frdate, int fhit, int fgroup, int fstep, int findent) {
+			Timestamp frdate, int fhit, int fgroup, int fstep, int findent, String mname) {
 		this.fno = fno;
 		this.mid = mid;
 		this.ftitle = ftitle;
@@ -28,6 +29,7 @@ public class FreeBoardDto {
 		this.fgroup = fgroup;
 		this.fstep = fstep;
 		this.findent = findent;
+		this.mname = mname;
 	}
 	public int getFno() {
 		return fno;
@@ -95,10 +97,17 @@ public class FreeBoardDto {
 	public void setFindent(int findent) {
 		this.findent = findent;
 	}
+	public String getMname() {
+		return mname;
+	}
+	public void setMname(String mname) {
+		this.mname = mname;
+	}
 	@Override
 	public String toString() {
 		return "FreeBoardDto [fno=" + fno + ", mid=" + mid + ", ftitle=" + ftitle + ", fcontent=" + fcontent
 				+ ", fimage1=" + fimage1 + ", fimage2=" + fimage2 + ", frdate=" + frdate + ", fhit=" + fhit
-				+ ", fgroup=" + fgroup + ", fstep=" + fstep + ", findent=" + findent + "]";
+				+ ", fgroup=" + fgroup + ", fstep=" + fstep + ", findent=" + findent + ", mname=" + mname + "]";
 	}
+	
 }

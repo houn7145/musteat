@@ -59,7 +59,7 @@ public class OneReviewDao {
 	}
 	
 	// -- 2. 한줄평 삭제
-	public int deleteOneReview(String ono) {
+	public int deleteOneReview(int ono) {
 		int result = FAIL;
 		Connection conn = null;
 		PreparedStatement pstmt = null;
@@ -67,7 +67,7 @@ public class OneReviewDao {
 		try {
 			conn = ds.getConnection();
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, ono);
+			pstmt.setInt(1, ono);
 			pstmt.executeUpdate();
 			result = SUCCESS;
 			System.out.println("한줄평 삭제 성공");
@@ -92,7 +92,7 @@ public class OneReviewDao {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		String sql = "SELECT * FROM ONEREVIEW WHERE RNO = ? ORDER BY ORECOMMAND DESC";
+		String sql = "SELECT O.*, M.MNAME FROM ONEREVIEW O, MEMBER M WHERE O.MID = M.MID AND RNO = ? ORDER BY ORECOMMAND DESC";
 		try {
 			conn = ds.getConnection();
 			pstmt = conn.prepareStatement(sql);
@@ -103,10 +103,22 @@ public class OneReviewDao {
 				String mid = rs.getString("mid");
 				String ocontent = rs.getString("ocontent");
 				int orecommand = rs.getInt("orecommand");
-				dtos.add(new OneReviewDto(ono, rno, mid, ocontent, orecommand));
+				String mname = rs.getString("mname");
+				dtos.add(new OneReviewDto(ono, rno, mid, ocontent, orecommand, mname));
 			}
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
+		} finally {
+			try {
+				if (pstmt != null)
+					pstmt.close();
+				if (conn != null)
+					conn.close();
+				if (rs != null)
+					rs.close();
+			} catch (SQLException e) {
+				System.out.println(e.getMessage());
+			}
 		}
 		return dtos;
 	}
@@ -161,5 +173,36 @@ public class OneReviewDao {
 				System.out.println(e.getMessage());
 			}
 		}
+	}
+	
+	// -- 6. ajax로 보낼 추천 수
+	public int getRecommandTotCnt(int ono) {
+		int totCnt = 0;
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql = "SELECT ORECOMMAND FROM ONEREVIEW WHERE ONO = ?";
+		try {
+			conn = ds.getConnection();
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, ono);
+			rs = pstmt.executeQuery();
+			rs.next();
+			totCnt = rs.getInt(1);
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+		} finally {
+			try {
+				if (rs != null)
+					rs.close();
+				if (pstmt != null)
+					pstmt.close();
+				if (conn != null)
+					conn.close();
+			} catch (SQLException e) {
+				System.out.println(e.getMessage());
+			}
+		}
+		return totCnt;
 	}
 }

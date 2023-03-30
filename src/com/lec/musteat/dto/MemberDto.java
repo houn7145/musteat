@@ -9,18 +9,16 @@ public class MemberDto {
 	private String mname;
 	private String memail;
 	private String mtel;
-	private String mgender;
 	private Date mbirth;
 	private Timestamp mrdate;
 	public MemberDto() {}
-	public MemberDto(String mid, String mpw, String mname, String memail, String mtel, String mgender, Date mbirth,
+	public MemberDto(String mid, String mpw, String mname, String memail, String mtel, Date mbirth,
 			Timestamp mrdate) {
 		this.mid = mid;
 		this.mpw = mpw;
 		this.mname = mname;
 		this.memail = memail;
 		this.mtel = mtel;
-		this.mgender = mgender;
 		this.mbirth = mbirth;
 		this.mrdate = mrdate;
 	}
@@ -54,12 +52,7 @@ public class MemberDto {
 	public void setMtel(String mtel) {
 		this.mtel = mtel;
 	}
-	public String getMgender() {
-		return mgender;
-	}
-	public void setMgender(String mgender) {
-		this.mgender = mgender;
-	}
+
 	public Date getMbirth() {
 		return mbirth;
 	}
@@ -75,6 +68,6 @@ public class MemberDto {
 	@Override
 	public String toString() {
 		return "MemberDto [mid=" + mid + ", mpw=" + mpw + ", mname=" + mname + ", memail=" + memail + ", mtel=" + mtel
-				+ ", mgender=" + mgender + ", mbirth=" + mbirth + ", mrdate=" + mrdate + "]";
+				+ ", mbirth=" + mbirth + ", mrdate=" + mrdate + "]";
 	}
 }

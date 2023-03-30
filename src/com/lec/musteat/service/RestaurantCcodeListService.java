@@ -4,6 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.lec.musteat.dao.CcodeDao;
+import com.lec.musteat.dao.RestaurantDao;
 
 public class RestaurantCcodeListService implements Service {
 
@@ -11,30 +12,23 @@ public class RestaurantCcodeListService implements Service {
 	public void execute(HttpServletRequest request, HttpServletResponse response) {
 		String pageNum = request.getParameter("pageNm");
 		if(pageNum == null) pageNum = "1";
-<<<<<<< HEAD
+		String cname = null;
 		String cnoStr = request.getParameter("cno");
 		if(cnoStr == null) cnoStr = "1";
 		int cno = Integer.parseInt(cnoStr);
-=======
-		int cno = Integer.parseInt(request.getParameter("cno"));
->>>>>>> da84813b46552efaab71568f3a20e6ebe0411bf0
-		int CurrentPage = Integer.parseInt(pageNum);
-		final int PAGESIZE = 4, BLOCKSIZE = 5;
-		int startRow = (CurrentPage - 1) * PAGESIZE + 1;
-		int endRow = startRow + PAGESIZE - 1;
-		CcodeDao cDao = new CcodeDao();
-		request.setAttribute("restaurants", cDao.getCcodeRestaurantList(cno, startRow, endRow));
-		int totCnt = cDao.getRestaurantTotCnt(cno);
-		int pageCnt = (int)Math.ceil((double)totCnt / PAGESIZE);
-		int startPage = ((CurrentPage - 1) / BLOCKSIZE) * BLOCKSIZE + 1;
-		int endPage = startPage + BLOCKSIZE - 1;
-		if(endPage > pageCnt) {
-			endPage = pageCnt;
+		switch(cno) {
+		case 1 : cname = "한식"; break;
+		case 2 : cname = "일식"; break;
+		case 3 : cname = "중식"; break;
+		case 4 : cname = "양식"; break;
+		case 5 : cname = "카페/디저트"; break;
+		case 6 : cname = "기타"; break;
 		}
-		request.setAttribute("BLOCKSIZE", BLOCKSIZE); 
-		request.setAttribute("startPage", startPage); 
-		request.setAttribute("endPage", endPage);
-		request.setAttribute("pageCnt", pageCnt); 
-		request.setAttribute("pageNum", CurrentPage); 
+		CcodeDao cDao = new CcodeDao();
+		request.setAttribute("restaurants", cDao.getCcodeRestaurantList(cno));
+		request.setAttribute("pageNum", pageNum);
+		request.setAttribute("cname", cname);
+		RestaurantDao rDao = new RestaurantDao();
+		request.setAttribute("restauranRavgList", rDao.getRavgRestaurant());
 	}
 }

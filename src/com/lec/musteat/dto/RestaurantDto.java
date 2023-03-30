@@ -10,8 +10,6 @@ public class RestaurantDto {
 	private String rcontent;
 	private String rplace;
 	private String mainimg;
-	private String subimg1;
-	private String subimg2;
 	private String rtel;
 	private String rmenu;
 	private String rprice;
@@ -19,9 +17,9 @@ public class RestaurantDto {
 	private Timestamp rrdate;
 	private int avghit;
 	private double ravg;
+	private String cname;
 	public RestaurantDto() {}
-	public RestaurantDto(int rno, String mid, int cno, String rname, String rcontent, String rplace, String mainimg,
-			String subimg1, String subimg2, String rtel, String rmenu, String rprice, int rhit, Timestamp rrdate,
+	public RestaurantDto(int rno, String mid, int cno, String rname, String rcontent, String rplace, String mainimg, String rtel, String rmenu, String rprice, int rhit, Timestamp rrdate,
 			int avghit) {
 		this.rno = rno;
 		this.mid = mid;
@@ -30,8 +28,6 @@ public class RestaurantDto {
 		this.rcontent = rcontent;
 		this.rplace = rplace;
 		this.mainimg = mainimg;
-		this.subimg1 = subimg1;
-		this.subimg2 = subimg2;
 		this.rtel = rtel;
 		this.rmenu = rmenu;
 		this.rprice = rprice;
@@ -40,7 +36,7 @@ public class RestaurantDto {
 		this.avghit = avghit;
 	}
 	public RestaurantDto(int rno, String mid, int cno, String rname, String rcontent, String rplace, String mainimg,
-			String subimg1, String subimg2, String rtel, String rmenu, String rprice, int rhit, Timestamp rrdate,
+			 String rtel, String rmenu, String rprice, int rhit, Timestamp rrdate,
 			int avghit, double ravg) {
 		this.rno = rno;
 		this.mid = mid;
@@ -49,8 +45,6 @@ public class RestaurantDto {
 		this.rcontent = rcontent;
 		this.rplace = rplace;
 		this.mainimg = mainimg;
-		this.subimg1 = subimg1;
-		this.subimg2 = subimg2;
 		this.rtel = rtel;
 		this.rmenu = rmenu;
 		this.rprice = rprice;
@@ -58,6 +52,25 @@ public class RestaurantDto {
 		this.rrdate = rrdate;
 		this.avghit = avghit;
 		this.ravg = ravg;
+	}
+	public RestaurantDto(int rno, String mid, int cno, String rname, String rcontent, String rplace, String mainimg,
+			 String rtel, String rmenu, String rprice, int rhit, Timestamp rrdate,
+			int avghit, double ravg, String cname) {
+		this.rno = rno;
+		this.mid = mid;
+		this.cno = cno;
+		this.rname = rname;
+		this.rcontent = rcontent;
+		this.rplace = rplace;
+		this.mainimg = mainimg;
+		this.rtel = rtel;
+		this.rmenu = rmenu;
+		this.rprice = rprice;
+		this.rhit = rhit;
+		this.rrdate = rrdate;
+		this.avghit = avghit;
+		this.ravg = ravg;
+		this.cname = cname;
 	}
 	public int getRno() {
 		return rno;
@@ -101,18 +114,6 @@ public class RestaurantDto {
 	public void setMainimg(String mainimg) {
 		this.mainimg = mainimg;
 	}
-	public String getSubimg1() {
-		return subimg1;
-	}
-	public void setSubimg1(String subimg1) {
-		this.subimg1 = subimg1;
-	}
-	public String getSubimg2() {
-		return subimg2;
-	}
-	public void setSubimg2(String subimg2) {
-		this.subimg2 = subimg2;
-	}
 	public String getRtel() {
 		return rtel;
 	}
@@ -155,11 +156,16 @@ public class RestaurantDto {
 	public void setRavg(double ravg) {
 		this.ravg = ravg;
 	}
+	public String getCname() {
+		return cname;
+	}
+	public void setCname(String cname) {
+		this.cname = cname;
+	}
 	@Override
 	public String toString() {
 		return "RestaurantDto [rno=" + rno + ", mid=" + mid + ", cno=" + cno + ", rname=" + rname + ", rcontent="
-				+ rcontent + ", rplace=" + rplace + ", mainimg=" + mainimg + ", subimg1=" + subimg1 + ", subimg2="
-				+ subimg2 + ", rtel=" + rtel + ", rmenu=" + rmenu + ", rprice=" + rprice + ", rhit=" + rhit
-				+ ", rrdate=" + rrdate + ", avghit=" + avghit + "]";
+				+ rcontent + ", rplace=" + rplace + ", mainimg=" + mainimg + " rtel=" + rtel + ", rmenu=" + rmenu + ", rprice=" + rprice + ", rhit=" + rhit
+				+ ", rrdate=" + rrdate + ", avghit=" + avghit + ", ravg=" + ravg + ", cname=" + cname + "]";
 	}
 }

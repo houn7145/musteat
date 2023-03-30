@@ -9,14 +9,16 @@ public class NoticeBoardDto {
 	private String ncontent;
 	private Timestamp nrdate;
 	private int nhit;
+	private String aname;
 	public NoticeBoardDto() {}
-	public NoticeBoardDto(int nno, String aid, String ntitle, String ncontent, Timestamp nrdate, int nhit) {
+	public NoticeBoardDto(int nno, String aid, String ntitle, String ncontent, Timestamp nrdate, int nhit, String aname) {
 		this.nno = nno;
 		this.aid = aid;
 		this.ntitle = ntitle;
 		this.ncontent = ncontent;
 		this.nrdate = nrdate;
 		this.nhit = nhit;
+		this.aname = aname;
 	}
 	public int getNno() {
 		return nno;
@@ -54,9 +56,15 @@ public class NoticeBoardDto {
 	public void setNhit(int nhit) {
 		this.nhit = nhit;
 	}
+	public String getAname() {
+		return aname;
+	}
+	public void setAname(String aname) {
+		this.aname = aname;
+	}
 	@Override
 	public String toString() {
 		return "NoticeBoardDto [nno=" + nno + ", aid=" + aid + ", ntitle=" + ntitle + ", ncontent=" + ncontent
-				+ ", nrdate=" + nrdate + ", nhit=" + nhit + "]";
+				+ ", nrdate=" + nrdate + ", nhit=" + nhit + ", aname=" + aname + "]";
 	}
 }

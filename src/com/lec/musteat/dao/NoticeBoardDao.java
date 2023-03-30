@@ -65,8 +65,8 @@ public class NoticeBoardDao {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		String sql = "SELECT * FROM (SELECT ROWNUM RN, A.* FROM (SELECT * FROM NOTICEBOARD ORDER BY NRDATE DESC)A)"
-				+ "    WHERE RN BETWEEN ? AND ?";
+		String sql = "SELECT * FROM (SELECT ROWNUM RN, A.* FROM (SELECT N.*, A.ANAME FROM NOTICEBOARD N, ADMIN A WHERE N.AID = A.AID ORDER BY NRDATE DESC)A)\r\n" + 
+				"    WHERE RN BETWEEN ? AND ?";
 		try {
 			conn = ds.getConnection();
 			pstmt = conn.prepareStatement(sql);
@@ -80,7 +80,8 @@ public class NoticeBoardDao {
 				String ncontent = rs.getString("ncontent");
 				Timestamp nrdate = rs.getTimestamp("nrdate");
 				int nhit = rs.getInt("nhit");
-				dtos.add(new NoticeBoardDto(nno, aid, ntitle, ncontent, nrdate, nhit));
+				String aname = rs.getString("aname");
+				dtos.add(new NoticeBoardDto(nno, aid, ntitle, ncontent, nrdate, nhit, aname));
 			}
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
@@ -160,7 +161,7 @@ public class NoticeBoardDao {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		String sql = "SELECT * FROM NOTICEBOARD WHERE NNO = ?";
+		String sql = "SELECT N.*, A.ANAME FROM NOTICEBOARD N, ADMIN A WHERE N.AID = A.AID AND NNO = ?";
 		try {
 			conn = ds.getConnection();
 			pstmt = conn.prepareStatement(sql);
@@ -172,7 +173,8 @@ public class NoticeBoardDao {
 				String ncontent = rs.getString("ncontent");
 				Timestamp nrdate = rs.getTimestamp("nrdate");
 				int nhit = rs.getInt("nhit");
-				dto = new NoticeBoardDto(nno, aid, ntitle, ncontent, nrdate, nhit);
+				String aname = rs.getString("aname");
+				dto = new NoticeBoardDto(nno, aid, ntitle, ncontent, nrdate, nhit, aname);
 			}
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
@@ -197,7 +199,7 @@ public class NoticeBoardDao {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		String sql = "SELECT * FROM NOTICEBOARD WHERE NNO = ?";
+		String sql = "SELECT N.*, A.ANAME FROM NOTICEBOARD N, ADMIN A WHERE N.AID = A.AID AND NNO = ?";
 		try {
 			conn = ds.getConnection();
 			pstmt = conn.prepareStatement(sql);
@@ -209,7 +211,8 @@ public class NoticeBoardDao {
 				String ncontent = rs.getString("ncontent");
 				Timestamp nrdate = rs.getTimestamp("nrdate");
 				int nhit = rs.getInt("nhit");
-				dto = new NoticeBoardDto(nno, aid, ntitle, ncontent, nrdate, nhit);
+				String aname = rs.getString("aname");
+				dto = new NoticeBoardDto(nno, aid, ntitle, ncontent, nrdate, nhit, aname);
 			}
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
@@ -259,7 +262,7 @@ public class NoticeBoardDao {
 	}
 	
 	// -- 6. 공지글 삭제
-	public int deleteNoticeBoard(String nno) {
+	public int deleteNoticeBoard(int nno) {
 		int result = FAIL;
 		Connection conn = null;
 		PreparedStatement pstmt = null;
@@ -267,7 +270,7 @@ public class NoticeBoardDao {
 		try {
 			conn = ds.getConnection();
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, nno);
+			pstmt.setInt(1, nno);
 			pstmt.executeUpdate();
 			result = SUCCESS;
 			System.out.println("공지게시판 글 삭제 성공");
@@ -287,16 +290,19 @@ public class NoticeBoardDao {
 	}
 	
 	// -- 7. 공지게시판 검색
-	public ArrayList<NoticeBoardDto> getSchNoticeBoard(String ntitle) {
+	public ArrayList<NoticeBoardDto> getSchNoticeBoard(String ntitle, int startRow, int endRow) {
 		ArrayList<NoticeBoardDto> dtos = new ArrayList<NoticeBoardDto>();
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		String sql = "SELECT * FROM NOTICEBOARD WHERE NTITLE LIKE '%' || ? || '%'";
+		String sql = "SELECT * FROM (SELECT ROWNUM RN, A.* FROM (SELECT N.*, A.ANAME FROM NOTICEBOARD N, ADMIN A WHERE N.AID = A.AID AND NTITLE LIKE '%' || ? || '%' ORDER BY NRDATE DESC)A)\r\n" + 
+				"    WHERE RN BETWEEN ? AND ?";
 		try {
 			conn = ds.getConnection();
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, ntitle);
+			pstmt.setInt(2, startRow);
+			pstmt.setInt(3, endRow);
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
 				int nno = rs.getInt("nno");
@@ -305,11 +311,55 @@ public class NoticeBoardDao {
 				String ncontent = rs.getString("ncontent");
 				Timestamp nrdate = rs.getTimestamp("nrdate");
 				int nhit = rs.getInt("nhit");
-				dtos.add(new NoticeBoardDto(nno, aid, ntitle, ncontent, nrdate, nhit));
+				String aname = rs.getString("aname");
+				dtos.add(new NoticeBoardDto(nno, aid, ntitle, ncontent, nrdate, nhit, aname));
 			}
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
+		}finally {
+			try {
+				if (rs != null)
+					rs.close();
+				if (pstmt != null)
+					pstmt.close();
+				if (conn != null)
+					conn.close();
+			} catch (SQLException e) {
+				System.out.println(e.getMessage());
+			}
 		}
 		return dtos;
+	}
+	
+	// --8. 공지게시판 검색 페이징시 필요한 글 갯수
+	
+	public int getNoticeBoardSchTotCnt(String ntitle) {
+		int totCnt = 0;
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql = "SELECT COUNT(*) FROM NOTICEBOARD WHERE NTITLE LIKE '%' || ? || '%'";
+		try {
+			conn = ds.getConnection();
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, ntitle);
+			rs = pstmt.executeQuery();
+			rs.next();
+			totCnt = rs.getInt(1);
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+		} finally {
+			try {
+				if (rs != null)
+					rs.close();
+				if (pstmt != null)
+					pstmt.close();
+				if (conn != null)
+					conn.close();
+			} catch (SQLException e) {
+				System.out.println(e.getMessage());
+			}
+		}
+		return totCnt;
 	}
 }

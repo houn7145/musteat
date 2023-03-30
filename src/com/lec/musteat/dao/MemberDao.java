@@ -38,7 +38,7 @@ public class MemberDao {
 		int result = FAIL;
 		Connection conn = null;
 		PreparedStatement pstmt = null;
-		String sql = "INSERT INTO MEMBER (MID, MPW, MNAME, MEMAIL, MGENDER, MBIRTH)" + "    VALUES (?, ?, ?, ?, ?, ?)";
+		String sql = "INSERT INTO MEMBER (MID, MPW, MNAME, MEMAIL, MTEL, MBIRTH)" + "    VALUES (?, ?, ?, ?, ?, ?)";
 		try {
 			conn = ds.getConnection();
 			pstmt = conn.prepareStatement(sql);
@@ -46,7 +46,7 @@ public class MemberDao {
 			pstmt.setString(2, dto.getMpw());
 			pstmt.setString(3, dto.getMname());
 			pstmt.setString(4, dto.getMemail());
-			pstmt.setString(5, dto.getMgender());
+			pstmt.setString(5, dto.getMtel());
 			pstmt.setDate(6, dto.getMbirth());
 			pstmt.executeUpdate();
 			result = SUCCESS;
@@ -186,10 +186,9 @@ public class MemberDao {
 				String mname = rs.getString("mname");
 				String memail = rs.getString("memail");
 				String mtel = rs.getString("mtel");
-				String mgender = rs.getString("mgender");
 				Date mbirth = rs.getDate("mbirth");
 				Timestamp mrdate = rs.getTimestamp("mrdate");
-				dto = new MemberDto(mid, mpw, mname, memail, mtel, mgender, mbirth, mrdate);
+				dto = new MemberDto(mid, mpw, mname, memail, mtel, mbirth, mrdate);
 			}
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
@@ -214,16 +213,15 @@ public class MemberDao {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		String sql = "UPDATE MEMBER SET MPW = ?," + "                  MEMAIL = ?," + "                  MTEL = ?,"
-				+ "                  MGENDER = ?," + "                  MBIRTH = ?" + "    WHERE MID = ?";
+				+ "                  MBIRTH = ?" + "    WHERE MID = ?";
 		try {
 			conn = ds.getConnection();
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, dto.getMpw());
 			pstmt.setString(2, dto.getMemail());
 			pstmt.setString(3, dto.getMtel());
-			pstmt.setString(4, dto.getMgender());
-			pstmt.setDate(5, dto.getMbirth());
-			pstmt.setString(6, dto.getMid());
+			pstmt.setDate(4, dto.getMbirth());
+			pstmt.setString(5, dto.getMid());
 			pstmt.executeUpdate();
 			result = SUCCESS;
 			System.out.println("정보수정 성공");
@@ -262,10 +260,9 @@ public class MemberDao {
 				String mname = rs.getString("mname");
 				String memail = rs.getString("memail");
 				String mtel = rs.getString("mtel");
-				String mgender = rs.getString("mgender");
 				Date mbirth = rs.getDate("mbirth");
 				Timestamp mrdate = rs.getTimestamp("mrdate");
-				members.add(new MemberDto(mid, mpw, mname, memail, mtel, mgender, mbirth, mrdate));
+				members.add(new MemberDto(mid, mpw, mname, memail, mtel, mbirth, mrdate));
 			}
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());

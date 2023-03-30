@@ -6,8 +6,18 @@ public class OneReviewDto {
 	private String mid;
 	private String ocontent;
 	private int orecommand;
+	private String mname;
 	public OneReviewDto() {}
+	public OneReviewDto(int ono, int rno, String mid, String ocontent, int orecommand, String mname) {
+		this.ono = ono;
+		this.rno = rno;
+		this.mid = mid;
+		this.ocontent = ocontent;
+		this.orecommand = orecommand;
+		this.mname = mname;
+	}
 	public OneReviewDto(int ono, int rno, String mid, String ocontent, int orecommand) {
+		super();
 		this.ono = ono;
 		this.rno = rno;
 		this.mid = mid;
@@ -43,6 +53,12 @@ public class OneReviewDto {
 	}
 	public void setOrecommand(int orecommand) {
 		this.orecommand = orecommand;
+	}
+	public String getMname() {
+		return mname;
+	}
+	public void setMname(String mname) {
+		this.mname = mname;
 	}
 	@Override
 	public String toString() {

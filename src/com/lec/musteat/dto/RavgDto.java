@@ -3,12 +3,12 @@ package com.lec.musteat.dto;
 public class RavgDto {
 	private int ano;
 	private int rno;
-	private double avg;
+	private double rating;
 	public RavgDto() {}
-	public RavgDto(int ano, int rno, double avg) {
+	public RavgDto(int ano, int rno, double rating) {
 		this.ano = ano;
 		this.rno = rno;
-		this.avg = avg;
+		this.rating = rating;
 	}
 	public int getAno() {
 		return ano;
@@ -22,14 +22,14 @@ public class RavgDto {
 	public void setRno(int rno) {
 		this.rno = rno;
 	}
-	public double getAvg() {
-		return avg;
+	public double getrating() {
+		return rating;
 	}
-	public void setAvg(double avg) {
-		this.avg = avg;
+	public void setrating(double rating) {
+		this.rating = rating;
 	}
 	@Override
 	public String toString() {
-		return "RavgDto [ano=" + ano + ", rno=" + rno + ", avg=" + avg + "]";
+		return "RavgDto [ano=" + ano + ", rno=" + rno + ", rating=" + rating + "]";
 	}
 }	

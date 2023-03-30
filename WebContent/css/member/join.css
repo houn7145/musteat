@@ -1,0 +1,73 @@
+@charset "UTF-8";
+@font-face {
+	font-family: 'pop-Light';
+	src: url('../../fonts/ONE Mobile Light.ttf') format('woff');
+}
+
+*{
+	margin:0;
+	padding:0;
+	font-family:'pop-Light';
+}
+
+li {
+	list-style: none;
+}
+
+#join_wrap{
+	width: 1000px;
+	height: 1000px;
+	margin: 0 auto;
+	position: relative;
+}
+
+#join_form {
+	width: 600px;
+	height: 800px;
+	background-color: #fbfbfb;
+	border-radius:20px;
+	position: absolute;
+ 	top: 50%;
+  	left: 50%;
+  	margin: -400px 0 0 -300px;
+}
+
+#join_form input {
+	font-weight: bold;
+	font-size: 1.1em;
+}
+
+
+#join_form h2{
+	font-weight: bold;
+	text-align: center;
+	margin: 30px 0;
+	color: #f7c95e;
+}
+
+#join_form table{
+	margin: 0 auto;
+}
+
+#join_form input[type=text], input[type=password]{
+	width:400px;
+	height: 40px;
+	margin-bottom: 5px;
+	border:1px solid black;
+	padding-left: 10px;
+}
+
+#join_form input[type=submit], input[type=reset], input[type=button] {
+	width:120px;
+	background-color: #f7c95e;
+	color:white;
+	height:50px;
+	border: none;
+	margin:100px 0 0 30px;
+	cursor:pointer;
+	border-radius: 30px; 
+}
+
+#join_form b {
+	color: red;
+}

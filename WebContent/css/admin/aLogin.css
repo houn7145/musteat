@@ -1,0 +1,84 @@
+@charset "UTF-8";
+@font-face {
+	font-family: 'pop-Light';
+	src: url('../../fonts/ONE Mobile Light.ttf') format('woff');
+}
+
+*{
+	margin:0;
+	padding:0;
+	font-family:'pop-Light';
+}
+
+#login_warp{
+	width: 1000px;
+	height: 600px;
+	margin: 0 auto;
+	position: relative;
+}
+
+#login_form {
+	width: 500px;
+	height: 300px;
+	background-color: #fbfbfb;
+	border-radius:20px;
+	position: absolute;
+ 	top: 50%;
+  	left: 50%;
+  	margin: -200px 0 0 -250px;
+}
+
+#login_form h2 {
+	font-weight: bold;
+	margin : 25px 0 20px 45px;
+}
+
+#login_form h4:last-of-type {
+	color: #f7c95e;
+	margin-bottom: 20px;
+	margin-top: 10px;
+}
+
+#login_form table {
+	margin: 0 auto;
+}
+
+#login_form input {
+	width:400px;
+	height: 40px;
+	margin-bottom: 5px;
+	border:1px solid black;
+	padding-left: 10px;
+}
+
+#login_form input[type=submit] {
+	background-color: #f7c95e;
+	color:white;
+	height:50px;
+	width:413px;
+	border: none;
+	font-size:1.4em;
+	cursor: pointer;
+}
+
+#login_form p {
+	border-top: 1px solid lightgray;
+	width:413px;
+	margin:30px 0 0 45px;
+}
+
+#login_warp h5 {
+	text-align: center;
+	margin-top : 30px;
+}
+
+#login_warp button {
+	background-color: white;
+	color: #f7c95e;
+	height:50px;
+	width:413px;
+	border: 1px solid #f7c95e;
+	font-size:1.4em;
+	margin:10px 0 0 45px;
+	cursor: pointer;
+}

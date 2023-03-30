@@ -6,7 +6,7 @@
 }
 
 * {
-	margin: 0;
+	margin: 0; 
 	padding: 0;
 	font-family: 'pop-Light';
 }
@@ -15,17 +15,20 @@ li {
 	list-style: none;
 }
 
-#main_wrap {
-	width: 1000px;
-	border: 1px solid gray;
-	margin: 0 auto;
+a {
+	text-decoration: none;
+	color:black;
 }
 
+#main_wrap {
+	width: 1000px;
+	height:100%;
+	margin: 0 auto;
+}
 
 #main_wrap .category {
 	width: 1000px;
 	height: 50px;
-	border: 1px solid gray;
 	background-color: #f7c95e;
 	text-align: center;
 }
@@ -48,27 +51,109 @@ li {
 #main_wrap .mainSection {
 	width: 1000px;
 	height: 500px;
-	border: 1px solid #f7c95e;
 	margin: 0 auto;
+	background-color: #fbfbfb;
+	border-radius: 40px;
 }
 .mainSection .ccodeRestaurants {
-	width: 700px;
-	height: 400px;
-	text-align: center;
-	border: 1px solid gray;
-	box-sizing: border-box;
 	margin: 0 auto;
+}
+
+.restaurantCategory h2 {
+	color:#fca949;
+	font-weight: bold;
+	margin-top:10px;
+	border-radius: 20px;
+	background-color: #fbfbfb;
+	padding: 30px 0 30px 10px;
+	
 }
 
 .slides {
 	margin-top: 30px;
+	margin: 0 auto;
 }
 
-.mainSection .restaurantReview {
-	width: 700px;
-	height: 300px;
-	text-align: center;
-	border: 1px solid gray;
-	box-sizing: border-box;
-	margin: 0 auto;
+.slides li img:first-of-type{
+	border-radius: 10%;
+}
+
+.slides li p:first-of-type{
+	font-size: 1.4em;
+	font-weight: bold;
+	margin: 10px 0;
+}
+
+.slides li p:nth-of-type(2){
+	font-size: 1.4em;
+	font-weight: bold;
+	color : #fca949;
+	margin: 10px 0;
+}
+
+.flexslider{
+	background-color: white;
+	
+}
+
+.ravgRestaurants{
+	margin-top: 100px;
+	height:100%;
+}
+
+.schList {
+	overflow: hidden;
+	margin: 20px 0;
+	border-radius: 40px;
+	background-color: #fbfbfb;
+	cursor: pointer;
+}
+
+.schList .imgInfo {
+	float: left;
+}
+
+.schList .imgInfo img{
+	border-radius: 20%;
+}
+
+.schList .restaurantInfo {
+	float:left;
+	margin: 10px 0 0 20px;
+}
+
+.schList .restaurantInfo p:first-of-type{
+	margin:5px 0;
+	font-size: 1.6em;
+	font-weight: bold;
+}
+
+.schList .restaurantInfo p{
+	font-weight: lighter;
+}
+
+.schList .restaurantInfo p:nth-of-type(2){
+	margin-top:15px;
+}
+
+.schList .restaurantInfo p:nth-of-type(4){
+	margin-bottom:15px;
+}
+
+.schList .restaurantInfo img{
+	vertical-align:text-bottom;
+}
+
+.schList .restaurantInfo span{
+	font-weight: bold;
+}
+
+.schList .restaurantInfo p:last-of-type {
+	overflow: hidden;  		
+  	text-overflow: ellipsis;  
+  	white-space: nowrap; 
+  	word-break:break-all;
+  	width: 700px;
+ 	height: 20px;
+ 	margin-top:3px;	
 }

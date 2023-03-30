@@ -1,0 +1,112 @@
+@charset "UTF-8";
+@font-face {
+	font-family: 'pop-Light';
+	src: url('../../fonts/ONE Mobile Light.ttf') format('woff');
+}
+
+*{
+	margin:0;
+	padding:0;
+	font-family:'pop-Light';
+}
+
+li {
+	list-style: none;
+}
+
+#add_wrap {
+	width: 800px;
+	margin: 0 auto;
+	margin-top: 30px;
+	margin-bottom: 30px;
+}
+
+#add_wrap .add_form{
+	width:100%;
+	height:100%;
+	background-color: #fbfbfb;
+	border: none;
+	border-radius: 20px;
+	padding:20px;
+}
+
+#add_wrap .add_form h2 {
+	margin:10px 0 10px 25px;
+}
+
+#add_wrap .add_form h4 {
+	margin:15px 0 20px 25px;
+	color:#fca949;
+}
+
+#add_wrap .add_form hr {
+	width:750px;
+	height:0.5px;
+	background:#f7c95e;
+	margin: 10px 0 5px 25px;
+    border:0;
+}
+
+#add_wrap .add_form .addContent{
+	padding: 25px;
+}
+
+#add_wrap .add_form .addContent b{
+	color:red;
+}
+
+#add_wrap .add_form .addContent input[type=text] {
+	width:200px;
+	height: 10px;
+	border:1px solid #fca949;
+	padding: 10px;
+	outline: #fca949;
+	margin: 10px 0;
+	font-size: 1.2em;
+}
+
+#add_wrap .add_form .addContent textarea {
+	width:730px;
+	height:300px;
+	resize: none;
+	border:1px solid #fca949;
+	padding: 10px;
+	outline:  #fca949;
+	margin: 10px 0;
+	font-size: 1.2em;
+}
+
+#add_wrap .add_form .addContent select{
+	width:222px;
+	height:35px;
+	border:1px solid #fca949;
+	outline: #fca949;
+	margin: 10px 0;
+	font-size:1.2em;
+	padding-left: 5px;
+}
+#add_wrap .add_form .addContent input[type=file]{
+	width:745px;
+	height: 35px;
+	background-color:white;
+	padding-top:10px;
+	margin: 10px 0;
+	border:1px solid #fca949;
+}
+
+#add_wrap .add_form .btn {
+	text-align: center;
+}
+
+#add_wrap .add_form .addContent input[type=submit], input[type=reset] {
+	width:80px;
+	height: 40px;
+	background-color: #f7c95e;
+	color:white;
+	border-radius: 20px;
+	border:none; 
+	font-size:1.2em;
+	cursor:pointer;
+	margin: 30px 15px 0 0;
+	display: inline-block;
+}
