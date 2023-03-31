@@ -11,16 +11,16 @@
 - 오픈 Library : jQuery v3.4.1, jQueryUI
 -  프로젝트 소개 : 우리나라의 여러가지 맛집을 사이트 사용자가 직접 공유할 수 있는 플랫폼으로<br>
 
-(https://user-images.githubusercontent.com/119472243/228998569-48dd6947-b2e3-4cd5-a126-ce886f0e9c18.JPG)
+![실행화면대체](https://user-images.githubusercontent.com/119472243/228998569-48dd6947-b2e3-4cd5-a126-ce886f0e9c18.JPG)
 
 ## 목차
-[1. 작업분할 구조도]()<br>
-[2. Gantt Chart]()<br>
-[3. 이용자 권한]()<br>
-[4. USecase Diagram]()<br>
-[5. Sequence Diagram]()<br>
-[6. 기능정의서]()<br>
-[7. E-R Diagram]()<br>
+[1. 작업분할 구조도](https://github.com/houn7145/musteat#%EC%9E%91%EC%97%85%EB%B6%84%ED%95%A0%EB%8F%84)<br>
+[2. Gantt Chart](https://github.com/houn7145/musteat#gantt-chart)<br>
+[3. 이용자 권한](https://github.com/houn7145/musteat#%EC%9D%B4%EC%9A%A9%EC%9E%90%EA%B6%8C%ED%95%9C)<br>
+[4. USecase Diagram](https://github.com/houn7145/musteat#usecase-diagram)<br>
+[5. Sequence Diagram](https://github.com/houn7145/musteat#sequence-diaram)<br>
+[6. 기능정의서](https://github.com/houn7145/musteat#%EA%B8%B0%EB%8A%A5%EC%A0%95%EC%9D%98%EC%84%9C)<br>
+[7. E-R Diagram](https://github.com/houn7145/musteat#e-r-diagram)<br>
 [8. Project Source Explorer]()<br>
 [9. 실행화면]()<br>
 
