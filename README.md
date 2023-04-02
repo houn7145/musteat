@@ -35,7 +35,7 @@
 ![요구사항분석](https://user-images.githubusercontent.com/119472243/229347935-326cc80c-9935-4591-a6ae-8900a97e76d8.jpg)
 
 ## UseCase Diagram
-![유스케이스](https://user-images.githubusercontent.com/119472243/229347933-8cc7c945-9417-4cc5-84ba-7bd00cd719eb.png)
+![유스케이스](https://user-images.githubusercontent.com/119472243/229357844-25400b4f-f162-4117-9f7b-137196f01224.png)
 
 ## Sequence Diaram
 ![시퀀스](https://user-images.githubusercontent.com/119472243/229347936-34b7533d-c28b-4ba1-a660-10d826fa2a00.jpg)
