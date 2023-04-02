@@ -49,13 +49,12 @@ li {
 
 .delete_confirm input{
 	margin-top:50px;
-	width:150px;
-	height:50px;
-	background-color: #f7c95e;
-	border-radius:20px;
-	border:none;
+	width: 140px;
+	height: 40px;
+	background-color: #fbfbfb;
+	border: 0.5px solid #f7c95e;
+	border-radius:30px; 
+	float: right;
+	font-size: 1.2em;
 	cursor: pointer;
-	color: #fbfbfb;
-	font-weight: bold;
-	font-size: 1.3em;
 }

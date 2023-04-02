@@ -198,7 +198,7 @@ public class FrontController extends HttpServlet {
 			}
 			viewPage = "main.do";
 		
-		}else if(command.equals("/restaurantSchList.do")) { // 맛집 이름으로 검색시 맛집 목록 출력 페이지로
+		}else if(command.equals("/restaurantSchList.do")) { // 맛집 지역 이름으로 검색시 맛집 목록 출력 페이지로
 			service = new RestaurantSchListService();
 			service.execute(request, response);
 			viewPage = "restaurant/restaurantSchList.jsp";

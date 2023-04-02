@@ -29,14 +29,14 @@ public class CcodeDao {
 		}
 	}
 
-	// -- 1. 메인페이지 카테고리 별 맛집 출력 - 페이징
+	// -- 1. 메인페이지 카테고리 별 맛집 출력
 	public ArrayList<RestaurantDto> getCcodeRestaurantList(int cno) {
 		ArrayList<RestaurantDto> Restaurants = new ArrayList<RestaurantDto>();
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		String sql = "SELECT * FROM (SELECT ROWNUM RN, A.* FROM (SELECT R.*, C.CNAME, (SELECT AVG(RATING) FROM RAVG A WHERE A.RNO = R.RNO)RAVG FROM RESTAURANT R, CCODE C WHERE C.CNO = ? AND C.CNO = R.CNO ORDER BY RAVG) A)" + 
-				" WHERE RN BETWEEN 1 AND 5";
+				" WHERE RN BETWEEN 1 AND 4";
 		try {
 			conn = ds.getConnection();
 			pstmt = conn.prepareStatement(sql);
@@ -55,7 +55,7 @@ public class CcodeDao {
 				int rhit = rs.getInt("rhit");
 				Timestamp rrdate = rs.getTimestamp("rrdate");
 				int avghit = rs.getInt("avghit");
-				int ravg = rs.getInt("ravg");
+				double ravg = rs.getDouble("ravg");
 				String cname = rs.getString("cname");
 				Restaurants.add(new RestaurantDto(rno, mid, cno, rname, rcontent, rplace, mainimg,
 						rtel, rmenu, rprice, rhit, rrdate, avghit, ravg, cname));

@@ -107,10 +107,15 @@ INSERT INTO ONEREVIEW (ONO, RNO, MID, OCONTENT)
 INSERT INTO ONEREVIEW (ONO, RNO, MID, OCONTENT)
     VALUES (ONE_SEQ.NEXTVAL, 2, 'CCC', '서울에서 출발하여 너무 먼 여정이었지만 음식을 보자마자 행복했습니다 꼭 다시 한번 가보고 싶어요');
 INSERT INTO ONEREVIEW (ONO, RNO, MID, OCONTENT)
-    VALUES (ONE_SEQ.NEXTVAL, 3, 'BBB', '이만한 가격대에 이런 해장국을 찾기가 쉽지 않은데 정말 맛있었습니다 ');
+    VALUES (ONE_SEQ.NEXTVAL, 3, 'BBB', '이만한 가격대에 이런 해장국을 찾기가 쉽지 않은데 정말 맛있었습니다.');
 INSERT INTO ONEREVIEW (ONO, RNO, MID, OCONTENT)
     VALUES (ONE_SEQ.NEXTVAL, 3, 'DDD', '국물도 깔끔하고 식당도 깨끗하고 다시 찾고 싶은 맛집입니다');
-
+INSERT INTO ONEREVIEW (ONO, RNO, MID, OCONTENT)
+    VALUES (ONE_SEQ.NEXTVAL, 1, 'FFF', '재료가 신선하고 양이 진~~짜 푸짐해요! 샌드위치 속 썬앤문 소스도 너무 맛있었어요.');
+    
+-- 재료도 신선하고 양도 많아요.
+-- 소스도 고를 수 있고 소스 자체도
+-- 맛있어요!!
 INSERT INTO ONEREVIEW (ONO, RNO, MID, OCONTENT)
     VALUES (ONE_SEQ.NEXTVAL, 3, 'AAA', '얼큰한 국물에 밥 말아서 먹으면 술은 안마셨지만 아침 해장메뉴구나 싶다
 맵지도 않고 고기도 푹 익어서 부드럽고 같이 나오는 깍두기가 잘 어울린다');

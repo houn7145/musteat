@@ -18,7 +18,7 @@
 				<div class="gnb">
 					<div class="search">
 						<form action="${conPath }/restaurantSchList.do">
-							<input type="text" name="rplace" id="inputSch" placeholder="지역 검색">
+							<input type="text" name="rplace" id="inputSch" placeholder="지역명 검색" value="${param.rplace }">
 							<input type="submit" id="submitImg" value="">
 						</form>	
 					</div>
@@ -42,7 +42,7 @@
 				<div class="gnb">
 					<div class="search">
 						<form action="${conPath }/restaurantSchList.do">
-							<input type="text" name="rplace" id="inputSch" placeholder="지역명 검색" value="${rplace }">
+							<input type="text" name="rplace" id="inputSch" placeholder="지역명 검색" value="${param.rplace }">
 							<input type="submit" id="submitImg" value="">
 						</form>	
 					</div>
@@ -66,7 +66,7 @@
 				<div class="gnb">
 					<div class="search">
 						<form action="${conPath }/restaurantSchList.do">
-							<input type="text" name="rplace" id="inputSch" placeholder="지역명 검색" value="${rplace }">
+							<input type="text" name="rplace" id="inputSch" placeholder="지역명 검색" value="${param.rplace }">
 							<input type="submit" id="submitImg" value="">
 						</form>	
 					</div>

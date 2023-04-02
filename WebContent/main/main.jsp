@@ -8,7 +8,7 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Insert title here</title>
-	<link rel="stylesheet" href="${conPath }/css/flexslider.css" type="text/css">
+	<link rel="stylesheet" href="${conPath }/css/ex/flexslider.css" type="text/css">
 	<link href="${conPath }/css/main/main.css" rel="stylesheet" type="text/css">
 	<script type="text/javascript"src="${conPath }/js/modernizr.custom.28468.js"></script>
 	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>

@@ -1,0 +1,57 @@
+@charset "UTF-8";
+@font-face {
+	font-family: 'pop-Light';
+	src: url('../../fonts/ONE Mobile Light.ttf') format('woff');
+}
+
+*{
+	margin:0;
+	padding:0;
+	font-family:'pop-Light';
+}
+
+li {
+	list-style: none;
+}
+
+#error_form {
+	width:1000px;
+	height:600px;
+	margin: 0 auto;
+	text-align: center;
+	margin-top:80px;
+	margin-bottom:90px;
+}
+
+.error_content {
+	display: inline-block;
+	background-color: #fbfbfb;
+	border-radius:20px;
+	padding:30px;
+}
+
+.error_content img{
+	width:100%;
+}
+
+.error_content h1{
+	padding:10px;
+	color: red;
+}
+
+.error_content p{
+	font-size: 1.2em;
+	padding:5px;
+}
+
+.error_content button{
+	margin-top:20px;
+	width:140px;
+	font-size:1.4em;
+	background-color: #f7c95e;
+	color:white;
+	height:50px;
+	border: none;
+	cursor:pointer;
+	border-radius: 30px; 
+}

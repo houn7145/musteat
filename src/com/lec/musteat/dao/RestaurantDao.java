@@ -417,8 +417,7 @@ public class RestaurantDao {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		String sql = "SELECT * FROM (SELECT ROWNUM RN, A.* FROM (SELECT RESTAURANT.*, (SELECT AVG(RATING) FROM RAVG WHERE RNO=RESTAURANT.RNO)RAVG FROM RESTAURANT WHERE RPLACE LIKE '%' || ? || '%' ORDER BY RAVG) A)"
-				+ " WHERE RN BETWEEN ? AND ?";
+		String sql = "SELECT * FROM (SELECT ROWNUM RN, A.* FROM (SELECT RESTAURANT.*, (SELECT NVL(AVG(RATING),0) FROM RAVG WHERE RNO=RESTAURANT.RNO )RAVG FROM RESTAURANT WHERE RPLACE LIKE '%' || ? || '%' ORDER BY RAVG DESC) A)WHERE RN BETWEEN ? AND ?";
 		try {
 			conn = ds.getConnection();
 			pstmt = conn.prepareStatement(sql);
@@ -492,13 +491,13 @@ public class RestaurantDao {
 		return totCnt;
 	}
 	
-	// 10. 평점을 5명 이상 등록한 맛집 출력(메인페이지)
+	// 10. 평점을 5명 이상 등록한 맛집 중 4점 이상인 맛집 출력(메인페이지)
 	public ArrayList<RestaurantDto> getRavgRestaurant() {
 		ArrayList<RestaurantDto> dtos = new ArrayList<RestaurantDto>();
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		String sql = "SELECT RESTAURANT.*, C.CNAME, RAVG.RAVG FROM RESTAURANT, CCODE C, (SELECT R.RNAME, AVG(RATING)RAVG FROM RAVG, RESTAURANT R WHERE RAVG.RNO = R.RNO GROUP BY R.RNAME HAVING AVG(RATING) > 4)RAVG WHERE RESTAURANT.RNAME = RAVG.RNAME AND RESTAURANT.AVGHIT >= 5 AND RESTAURANT.CNO = C.CNO";
+		String sql = "SELECT RESTAURANT.*, C.CNAME, RAVG.RAVG FROM RESTAURANT, CCODE C, (SELECT R.RNAME, AVG(RATING)RAVG FROM RAVG, RESTAURANT R WHERE RAVG.RNO = R.RNO GROUP BY R.RNAME HAVING AVG(RATING) > 4)RAVG WHERE RESTAURANT.RNAME = RAVG.RNAME AND RESTAURANT.AVGHIT >= 5 AND RESTAURANT.CNO = C.CNO ORDER BY RAVG DESC";
 		try {
 			conn = ds.getConnection();
 			pstmt = conn.prepareStatement(sql);
