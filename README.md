@@ -8,7 +8,7 @@
 - DBMS : Oracle 11g Express Edition
 - 언 어 : Java SE 8 Platform, HTML5, CSS, JavaScript
 - 디자인 패턴 : MVC(Model 2)
-- 오픈 Library : jQuery v3.4.1, jQueryUI
+- 오픈 Library : jQuery v3.4.1, jQueryUI, Ajax, sliderbanner API
 -  프로젝트 소개 : 우리나라의 여러가지 맛집을 회원들끼리 공유할 수 있는 사이트이며 맛집에 대한 후기 및 평가와 게시판을 이용하여 회원들간의 소통까지 가능한 플랫폼입니다.<br>
 
 ![메인페이지](https://user-images.githubusercontent.com/119472243/229347750-c0f3c536-80d0-4e9f-a0c2-5beddcbb1a7d.png)
